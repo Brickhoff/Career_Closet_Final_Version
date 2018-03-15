@@ -1,0 +1,28 @@
+<h1>Showing selected Suit</h1>
+
+<table>
+    <tr>
+        <th>App. ID</th>
+        <th>Gender</th>
+        <th>Article</th>
+        <th>Size</th>
+        <!-- <th>User</th> -->
+        <th>Renter</th>
+    </tr>
+    
+    <% @suit.each do |suit|%>
+    <tr>
+        <td><%= suit.appid %></td>
+        <td><%= suit.gender %></td>
+        <td><%= suit.article %></td>
+        <td><%= suit.size %></td>
+        <td><%= suit.user_id %></td>
+        <!-- <td><#%= article.user.username if article.user%></td> -->
+        <td><%= link_to "Show", suit_path(suit) %></td>
+        <td><%= link_to "Edit",edit_suit_path(suit) %></td>
+        <td><%= link_to "Delete", suit_path(suit), method: :delete, data: {confirm: "Are you sure?"} %></td>
+    </tr>
+    <% end %>
+</table>
+<%= link_to "Back to Closet", suits_path %> |
+<%= link_to "Edit this suit", edit_suit_path(@suit) %>

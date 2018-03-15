@@ -1,0 +1,11 @@
+<h1>Welcome, <%= @user.first_name %> Profile</h1>
+
+<h4><%= @user.first_name %>'s renting suits</h4>
+<%= render 'suits/suit', obj: @user.suits %>
+<p>
+    <%= link_to "Back to Closet", suits_path %>
+</p>
+
+<p>
+    <%= link_to "Back to see all users", users_path %>
+</p>

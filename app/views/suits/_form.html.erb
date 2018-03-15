@@ -1,0 +1,30 @@
+<% if @suit.errors.any? %>
+<h2>The following errors prevented the article from getting created</h2>
+<ul>
+    <% @suit.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+</ul>
+<% end %>
+
+<%= form_for @suit do |f| %>
+   <p>
+       <%= f.label :appid, "App. ID" %><br/>
+       <%= f.text_field :appid, class: 'form-control' %>
+   </p>
+   <p>
+       <%= f.label :gender, "Gender" %><br/>
+       <%= f.text_area :gender, class: 'form-control' %>
+   </p>
+   <p>
+       <%= f.label :articel, "Article" %><br/>
+       <%= f.text_area :article, class: 'form-control' %>
+   </p>
+   <p>
+       <%= f.label :size, "Size" %><br/>
+       <%= f.text_area :size, class: 'form-control' %>
+   </p>
+   <p>
+       <%= f.submit %>
+   </p>
+<% end %>
