@@ -22,3 +22,16 @@ Scenario: admin signup without password
 #   And I fill in "password_confirmation" with "mypassword"
   And I press "Create my account"
   Then I should see " errors."
+  
+Scenario: admin signup with password
+  When I am on the home page
+  And I follow "Sign up now!"
+  Then I should be on the signup page
+  And I fill in "First name" with "Xuezhang"
+  And I fill in "Last name" with "Wu"
+  And I fill in "UIN" with "123456789"
+  And I fill in "Email" with "brickhoff@tamu.edu"
+  And I fill in "password" with "123456789"
+  And I fill in "password_confirmation" with "123456789"
+  And I press "Create my account"
+  Then I should see "Welcome to Career Closet Xuezhang"
