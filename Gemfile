@@ -52,6 +52,8 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'sqlite3', '1.3.13'
+  gem 'rspec-rails'
+  gem 'database_cleaner'
 end
 
 group :development do
@@ -62,10 +64,13 @@ group :development do
 end
 
 group :test do
-  gem 'rails-controller-testing', '1.0.2'
-  gem 'minitest-reporters',       '1.1.14'
-  gem 'guard',                    '2.14.1'
-  gem 'guard-minitest',           '2.4.6'
+  # gem 'rails-controller-testing', '1.0.2'
+  # gem 'minitest-reporters',       '1.1.14'
+  # gem 'guard',                    '2.14.1'
+  # gem 'guard-minitest',           '2.4.6'
+  gem 'simplecov', :require => false
+  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails-training-wheels'
 end
 
 group :production do
