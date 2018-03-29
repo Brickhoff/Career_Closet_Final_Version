@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Gemfile was updated.
 
-Things you may want to cover:
+Please don't change ruby and rails version.
 
-* Ruby version
+Steps to set up environment:
 
-* System dependencies
+1. a new c9 environment for ruby 2.4.1.
+2. git clone this repository after fork.
+3.Please input following commend to solve problems from pq 0.20.0. 
 
-* Configuration
+commend:
+for pq 0.20.0 do not work:
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+sudo yum install libpqxx-devel
