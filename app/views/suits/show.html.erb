@@ -1,5 +1,9 @@
 <h1>Showing selected Suit</h1>
 
+<p>
+    <%= link_to "Add new suits", new_suit_path %>
+</p>
+
 <table>
     <tr>
         <th>App. ID</th>
@@ -24,5 +28,4 @@
     </tr>
     <% end %>
 </table>
-<%= link_to "Back to Closet", suits_path %> |
-<%= link_to "Edit this suit", edit_suit_path(@suit) %>
+<%= link_to "Back to Closet", suits_path %> 

@@ -6,7 +6,8 @@ class AdminsessionController < ApplicationController
     admin = Admin.find_by(email: params[:session][:name])
    
     if admin && admin.authenticate(params[:session][:password])
-      log_in admin
+      admin_log_in admin
+      admin_remember admin
       redirect_to suits_path
     else
       flash[:error] = "Invalid combination of email and password."
@@ -15,7 +16,7 @@ class AdminsessionController < ApplicationController
   end
   
   def destroy
-    log_out
+    admin_log_out if admin_logged_in?
     redirect_to adminlogin_path
   end
   

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
   def new
     @user = User.new
   end
@@ -10,8 +11,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to Career Closet #{@user.first_name}"
+      user_log_in @user
+      flash[:success] = "Welcome to Career Closet #{@user.full_name}"
       redirect_to appointments_path
     else
       render 'new'
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
   end
   def update
       @user = User.find(params[:id])
-      if @user.update(user_params)
+      if @user.update_attributes(user_params)
           flash[:success] = "Your account was updated successfully"
           redirect_to appointments_path
       else

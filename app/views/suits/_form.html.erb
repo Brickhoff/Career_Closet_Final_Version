@@ -14,16 +14,20 @@
    </p>
    <p>
        <%= f.label :gender, "Gender" %><br/>
-       <%= f.text_area :gender, class: 'form-control' %>
+       <%= f.text_field :gender, class: 'form-control' %>
    </p>
    <p>
-       <%= f.label :articel, "Article" %><br/>
-       <%= f.text_area :article, class: 'form-control' %>
+       <%= f.label :article, "Article" %><br/>
+       <%= f.text_field :article, class: 'form-control' %>
    </p>
    <p>
        <%= f.label :size, "Size" %><br/>
-       <%= f.text_area :size, class: 'form-control' %>
+       <%= f.text_field :size, class: 'form-control' %>
    </p>
+    <p>
+       <%= f.label :first_name %><br/>
+       <%= f.text_field :first_name, class: 'form-control'%>
+    </p>
    <p>
        <%= f.submit %>
    </p>

@@ -4,14 +4,15 @@ class SuitsController < ApplicationController
         @suit = Suit.all
     end
     def new 
-        @suit = Suit.new
+        @suit = User.joins(:suits)
     end
     
     def edit
     end
     
     def create
-        @suit = Suit.new(suit_params)
+        @suittable = Suit.merge(User.where(:first_name))
+        @suit = @suittable.new(suit_params)
         if @suit.save
             #do something
             flash[:notice] = "Suit was succussfully added to the Closet!"
@@ -42,10 +43,10 @@ class SuitsController < ApplicationController
     
     private
       def set_suit
-         @suit= Suit.find(params[:id])
+         @suittable= Suit.merge(User.where(:first_name)).find(params[:id])
       end
       
       def suit_params
-          params.require(:suit).permit(:appid, :gender, :article, :article, :size, :user_id)
+          params.require(:suit).permit(:appid, :gender, :article, :article, :size, :first_name)
       end
 end

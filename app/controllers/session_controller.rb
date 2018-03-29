@@ -6,8 +6,9 @@ class SessionController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
    
     if user && user.authenticate(params[:session][:password])
-      log_in user
-      redirect_to appointment_path
+      user_log_in user
+      user_remember user
+      redirect_to appointments_path
     else
       flash[:error] = "Invalid combination of email and password."
       render 'new'
@@ -15,7 +16,7 @@ class SessionController < ApplicationController
   end
   
   def destroy
-    log_out
+    user_log_out if user_logged_in?
     redirect_to login_path
   end
   

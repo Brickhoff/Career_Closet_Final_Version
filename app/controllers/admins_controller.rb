@@ -10,7 +10,7 @@ class AdminsController < ApplicationController
   def create
     @admins = Admin.new(admin_params)
     if @admins.save
-      log_in @admins
+      admin_log_in @admins
       flash[:success] = "Welcome to Career Closet Admin Interface! #{@admins.name}"
       redirect_to suits_path
     else
@@ -23,7 +23,7 @@ class AdminsController < ApplicationController
   end
   def update
       @admins= Admin.find(params[:id])
-      if @admin.update(admin_params)
+      if @admin.update_attributes(admin_params)
           flash[:success] = "Your account was updated successfully"
           redirect_to suits_path
       else

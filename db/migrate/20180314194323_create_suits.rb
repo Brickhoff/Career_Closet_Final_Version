@@ -7,7 +7,7 @@ class CreateSuits < ActiveRecord::Migration[5.1]
       t.string :gender
       t.string :article
       t.string :size
-      t.integer :user_id
+      #t.references :users, foreign_key: true
 
       t.timestamps
     end
