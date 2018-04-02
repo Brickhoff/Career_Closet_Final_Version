@@ -1,31 +1,22 @@
 <h1>Showing selected Suit</h1>
+<div class= "row">
+    <aside class = "col-md-4">
+        <section>
+            <%= label_tag "App. ID" %>
+            <%= @suits.appid %><br>
+            <%= label_tag "Gender" %>
+            <%= @suits.gender %><br>
+            <%= label_tag "Article" %>
+            <%= @suits.article %><br>
+            <%= label_tag "Size" %>
+            <%= @suits.size %><br>
+            <%= label_tag "Status" %>
+            <%= @suits.status %><br>
+        </section>
+    </aside>
+</div>
 
-<p>
-    <%= link_to "Add new suits", new_suit_path %>
-</p>
 
-<table>
-    <tr>
-        <th>App. ID</th>
-        <th>Gender</th>
-        <th>Article</th>
-        <th>Size</th>
-        <!-- <th>User</th> -->
-        <th>Renter</th>
-    </tr>
-    
-    <% @suit.each do |suit|%>
-    <tr>
-        <td><%= suit.appid %></td>
-        <td><%= suit.gender %></td>
-        <td><%= suit.article %></td>
-        <td><%= suit.size %></td>
-        <td><%= suit.user_id %></td>
-        <!-- <td><#%= article.user.username if article.user%></td> -->
-        <td><%= link_to "Show", suit_path(suit) %></td>
-        <td><%= link_to "Edit",edit_suit_path(suit) %></td>
-        <td><%= link_to "Delete", suit_path(suit), method: :delete, data: {confirm: "Are you sure?"} %></td>
-    </tr>
-    <% end %>
-</table>
-<%= link_to "Back to Closet", suits_path %> 
+<%= link_to "Edit",edit_suit_path(@suits) %></td>
+<%= link_to "Delete", suit_path(@suits), method: :delete, data: {confirm: "Are you sure?"} %><br>
+<%= link_to "Back to Closet", suits_path %> <br>

@@ -1,2 +1,6 @@
+<% provide(:title, "New") %>
 <h1>Create a new suit</h1>
-<%= render 'form'%>
+
+<%= render 'form', suits: @suits %>
+
+<%= link_to 'Back to inventory', suits_path %>

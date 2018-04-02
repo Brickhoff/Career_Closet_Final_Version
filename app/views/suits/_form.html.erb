@@ -1,20 +1,21 @@
-<% if @suit.errors.any? %>
-<h2>The following errors prevented the article from getting created</h2>
+
+<% if @suits.errors.any? %>
+<h2>"The following errors prevented the article from getting created"</h2>
 <ul>
-    <% @suit.errors.full_messages.each do |msg| %>
+    <% @suits.errors.full_messages.each do |msg| %>
     <li><%= msg %></li>
     <% end %>
 </ul>
 <% end %>
 
-<%= form_for @suit do |f| %>
+<%= form_for @suits do |f| %>
    <p>
        <%= f.label :appid, "App. ID" %><br/>
        <%= f.text_field :appid, class: 'form-control' %>
    </p>
    <p>
        <%= f.label :gender, "Gender" %><br/>
-       <%= f.text_field :gender, class: 'form-control' %>
+       <%= f.collection_select :gender, Suit.genders, :first, :first, class: 'form-control' %>
    </p>
    <p>
        <%= f.label :article, "Article" %><br/>
@@ -25,9 +26,9 @@
        <%= f.text_field :size, class: 'form-control' %>
    </p>
     <p>
-       <%= f.label :first_name %><br/>
-       <%= f.text_field :first_name, class: 'form-control'%>
-    </p>
+       <%= f.label :status, "Status" %><br/>
+       <%= f.collection_select :status, Suit.statuses, :first, :first, class: 'form-control' %>
+   </p>
    <p>
        <%= f.submit %>
    </p>

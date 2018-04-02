@@ -1,29 +1,27 @@
 
-<h1>Listing all suits</h1>
+<h1>Suits inventory</h1>
 <p><%= link_to 'Back to Homepage', root_path %></p>
 <p>
     <%= link_to "Add new suits", new_suit_path %>
 </p>
 
-<table>
-    <tr>
-        <th>App. ID</th>
-        <th>Gender</th>
-        <th>Article</th>
-        <th>Size</th>
-        <!-- <th>User</th> -->
-        <th>Renter</th>
-    </tr>
-    
-    <% @suit.each do |suit|%>
-    <tr>
-        <td><%= suit.appid %></td>
-        <td><%= suit.gender %></td>
-        <td><%= suit.article %></td>
-        <td><%= suit.size %></td>
-        <td><%= link_to "Show", suit_path(suit) %></td>
-        <td><%= link_to "Edit",edit_suit_path(suit) %></td>
-        <td><%= link_to "Delete", suit_path(suit), method: :delete, data: {confirm: "Are you sure?"} %></td>
-    </tr>
-    <% end %>
-</table>
+<% search_form_for @q_suits do |f| %>
+    <%= f.label :appid %>
+    <%= f.search_field :appid_cont %><br>
+    <%= f.label :gender %>
+    <%= f.collection_select :gender_cont, Suit.select("distinct gender"), :gender, :gender, {:include_blank => "Please select gender"} %><br>
+    <%= f.label :article %>
+    <%= f.collection_select :article_cont, Suit.select("distinct article"), :article, :article, {:include_blank => "Please select article"} %><br>
+    <%= f.label :size %>
+    <%= f.collection_select :size_cont, Suit.select("distinct size"), :size, :size, {:include_blank => "Please select size"} %><br>
+    <%= f.label :status %>
+    <%= f.collection_select :status_cont, Suit.statuses, :first, :first, {:include_blank =>"Please select suit status"} %><br>
+    <%= f.submit "Search" %>
+<% end %>
+
+<%= will_paginate %>
+<%= content_tag :table, class: 'table' do %>
+   <%= content_tag :thead, display_suit_sorted_column_headers(@q_suits), nil, false %>
+   <%= content_tag :tbody, display_suit_sorted_search_results(@suits), nil, false %>
+<% end %>
+<%= will_paginate %>

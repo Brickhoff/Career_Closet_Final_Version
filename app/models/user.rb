@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  has_many :suits
+  has_many :suit_users
+  has_many :suits, :through => :suit_users
   attr_accessor :remember_token
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   

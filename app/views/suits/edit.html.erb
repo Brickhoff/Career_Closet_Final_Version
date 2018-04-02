@@ -1,3 +1,7 @@
-<h1>Edit exsiting article</h1>
+<% provide(:title, "Edit") %>
+<h1>Edit suits information</h1>
 
-<%= render 'form'%>
+<%= render 'form', suits: @suits %>
+
+<%= link_to 'Back to inventory', suits_path %>
+

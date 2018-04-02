@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  get 'renters/index'
+
+  get 'renters/show'
+
+  get 'renters/new'
+
+  get 'renters/edite'
+
+  get 'renters/create'
+
+  get 'renters/update'
+
+  get 'renters/destroy'
+
   get 'appointments', to: 'appointments#new'
 
   get    '/adminsignup',  to: 'admins#new'

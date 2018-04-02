@@ -5,6 +5,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+ruby '2.4.1'
+
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
@@ -43,6 +45,14 @@ gem 'bootstrap-sass',          '3.3.7'
 gem 'jquery-rails',            '4.3.1'
 gem 'simple_form'
 gem 'guard-rspec'
+# Use ransack for Search 
+gem 'ransack'
+# Use for backgroud processing
+gem 'sidekiq'
+# Redis-backed Ruby library for creating background jobs
+gem 'resque'
+# A light-weight job scheduling system built on top of resque
+gem 'resque-scheduler'
 
 
 group :development, :test do
