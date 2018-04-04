@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  has_many :suit_users
-  has_many :suits, :through => :suit_users
+  has_many :renters
+  has_many :suits, :through => :renters
   attr_accessor :remember_token
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
@@ -9,7 +9,7 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
-  validates :UIN, presence: true, uniqueness: true, length:{minimum: 9, maximum: 9}
+  validates :uin, presence: true, uniqueness: true, length:{minimum: 9, maximum: 9}
   validates :phone, presence: true, uniqueness: true, length:{minimum: 10, maximum: 10}
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true, length: { minimum: 6 }

@@ -1,2 +1,26 @@
 <h1>Renters#index</h1>
 <p>Find me in app/views/renters/index.html.erb</p>
+
+<%= search_form_for @q_renters do |f| %>
+    <%= f.label "App. ID: " %>
+    <%= f.collection_select :suit_id_eq, Suit.all, :id, lambda { |s| "#{s.appid}"}, {:prompt => "Please select a suit"} %><br>
+    <%= f.label "UIN of Cutstomer:" %>
+    <%= f.collection_select :user_id_eq, User.all, :id, lambda { |u| "#{u.uin}"}, {:prompt => "Please select Customer UIN"} %><br>
+    <%= f.submit "Search" %>
+<% end %>
+<br>
+
+
+<%= will_paginate %>
+
+<%= content_tag :table, class: 'table' do %>
+  <%= content_tag :thead, display_renter_sorted_column_headers(@q_renters), nil, false  %>
+  <%= content_tag :tbody, display_renter_sorted_search_results(@renters), nil, false  %>
+<% end %>
+
+<%= will_paginate %>
+
+
+<p>
+    <%= link_to "Rent a suit", 'renters/new' %>
+</p>

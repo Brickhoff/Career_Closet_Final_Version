@@ -1,2 +1,21 @@
 <h1>Renters#show</h1>
 <p>Find me in app/views/renters/show.html.erb</p>
+<div class= "row">
+    <aside class = "col-md-4">
+        <section>
+            <%= label_tag "Customer Name and UIN" %>
+            <%= User.find(@renters.user_id).first_name + ": " +  User.find(@renters.user_id).uin %><br>
+            <%= label_tag "Checkout Time" %>
+            <%= @renters.checkOutTime %><br>
+            <%= label_tag "Expect Return Time" %>
+            <%= @renters.expectReturnTime %><br>
+            <%= label_tag "status" %>
+            <%= @renters.status %><br>
+        </section>
+    </aside>
+</div>
+
+
+<%= link_to "Edit",edit_renter_path(@renters) %></td>
+<%= link_to "Delete", renter_path(@renters), method: :delete, data: {confirm: "Are you sure?"} %><br>
+<%= link_to "Back to Closet", renters_path %> <br>

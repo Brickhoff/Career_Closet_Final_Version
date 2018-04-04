@@ -3,7 +3,7 @@
     <%= link_to "Texas A&M University Career Closet", '#', id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Home",   'static_pages#home' %></li>
+        <li><%= link_to "Home",  '/home'  %></li>
         <li><%= link_to "Help",   '/help' %></li>
         
         <% if admin_logged_in? %>
@@ -28,6 +28,7 @@
               <li><%= link_to "Customers", '#' %></li>
               <li><%= link_to "Suits", suits_path %></li>
               <li><%= link_to "Appointments", appointments_path %></li>
+              <li><%= link_to "Rent Suit", renters_path %></li>
             </ul>
           </li>
         <% elsif user_logged_in? %>

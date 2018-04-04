@@ -46,7 +46,7 @@ gem 'jquery-rails',            '4.3.1'
 gem 'simple_form'
 gem 'guard-rspec'
 # Use ransack for Search 
-gem 'ransack'
+gem 'ransack', github: 'activerecord-hackery/ransack'
 # Use for backgroud processing
 gem 'sidekiq'
 # Redis-backed Ruby library for creating background jobs

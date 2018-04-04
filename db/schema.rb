@@ -27,12 +27,12 @@ ActiveRecord::Schema.define(version: 20180331203540) do
     t.datetime "pickUpTime"
     t.datetime "expectReturnTime", null: false
     t.datetime "returnTime"
-    t.string "rentStatus", default: "Available"
+    t.string "status", default: "Available"
     t.integer "user_id"
-    t.integer "car_id"
+    t.integer "suit_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["car_id"], name: "index_renters_on_car_id"
+    t.index ["suit_id"], name: "index_renters_on_suit_id"
     t.index ["user_id"], name: "index_renters_on_user_id"
   end
 
@@ -49,9 +49,10 @@ ActiveRecord::Schema.define(version: 20180331203540) do
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.string "UIN"
+    t.string "uin"
     t.string "phone"
     t.string "email"
+    t.boolean "available", default: true
     t.string "password_digest"
     t.string "remember_digest"
     t.datetime "created_at", null: false

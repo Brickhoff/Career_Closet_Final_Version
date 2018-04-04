@@ -5,10 +5,10 @@ class CreateRenters < ActiveRecord::Migration[5.1]
       t.timestamp :pickUpTime, null: true
       t.timestamp :expectReturnTime, null: false
       t.timestamp :returnTime, null: true
-      t.string :rentStatus, default: "Available"
+      t.string :status, default: "Available"
       
       t.references :user
-      t.references :car
+      t.references :suit
       t.timestamps
     end
   end

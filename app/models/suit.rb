@@ -1,4 +1,6 @@
 class Suit < ApplicationRecord
+  has_many :renters
+  has_many :users, :through => :renters
   enum statuses: [:Available, :Reserved, :Checkout, :Damaged]
   enum genders:[:M, :G]
   

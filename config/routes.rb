@@ -1,17 +1,13 @@
 Rails.application.routes.draw do
-  get 'renters/index'
+  get 'renters', to: 'renters#index'
+  
+  #get 'renters/index'
 
   get 'renters/show'
 
   get 'renters/new'
 
-  get 'renters/edite'
-
-  get 'renters/create'
-
-  get 'renters/update'
-
-  get 'renters/destroy'
+  get 'renters/edit'
 
   get 'appointments', to: 'appointments#new'
 
@@ -29,13 +25,14 @@ Rails.application.routes.draw do
   get 'suits/edit',  to: 'suits#edit'
 
   root   'static_pages#home'
+  get    'home',     to:  'static_pages#home'
   get    '/help',    to: 'static_pages#help'
   get    '/about',   to: 'static_pages#about'
   get    '/signup',  to: 'users#new'
   get    '/login',   to: 'session#new'
   post   '/login',   to: 'session#create'
   delete '/logout',  to: 'session#destroy'
-  resources :users, :suits, :admins
+  resources :users, :suits, :admins, :renters
   resources :users do
     resources :suits
   end
