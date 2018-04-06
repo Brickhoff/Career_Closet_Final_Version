@@ -1,11 +1,15 @@
 <h1>Renters#index</h1>
 <p>Find me in app/views/renters/index.html.erb</p>
+<p>
+    <%= link_to "Rent a suit", 'renters/new' %>
+</p>
+
 
 <%= search_form_for @q_renters do |f| %>
-    <%= f.label "App. ID: " %>
-    <%= f.collection_select :suit_id_eq, Suit.all, :id, lambda { |s| "#{s.appid}"}, {:prompt => "Please select a suit"} %><br>
-    <%= f.label "UIN of Cutstomer:" %>
-    <%= f.collection_select :user_id_eq, User.all, :id, lambda { |u| "#{u.uin}"}, {:prompt => "Please select Customer UIN"} %><br>
+    <%= f.label :suit_appid_cont, "Suit App. ID:" %>
+    <%= f.search_field :suit_appid_cont %><br>
+    <%= f.label :user_uin_cont, "Customer UIN:" %>
+    <%= f.search_field :user_uin_cont %><br>
     <%= f.submit "Search" %>
 <% end %>
 <br>

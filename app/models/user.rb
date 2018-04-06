@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_many :renters
   has_many :suits, :through => :renters
+  #scope :uin, -> {where(:uin => true)}
+  
   attr_accessor :remember_token
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   

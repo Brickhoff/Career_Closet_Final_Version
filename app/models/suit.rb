@@ -1,8 +1,10 @@
 class Suit < ApplicationRecord
   has_many :renters
   has_many :users, :through => :renters
+  #scope :appid, -> {where(:appid => true)}
   enum statuses: [:Available, :Reserved, :Checkout, :Damaged]
   enum genders:[:M, :G]
+  #enum style: [:appid, :gender, :size, :article, :status]
   
   validates :appid, presence: true, uniqueness: {case_sensitive: false}
   validates :gender, presence: true, inclusion: {in: genders}

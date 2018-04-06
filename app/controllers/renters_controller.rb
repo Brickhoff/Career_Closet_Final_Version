@@ -6,7 +6,7 @@ class RentersController < ApplicationController
   
   def index
     @q_renters = Renter.ransack(params[:q])
-    @renters = @q_renters.result().paginate(page: params[:page]) || []
+    @renters = @q_renters.result.includes(:user, :suit).paginate(page: params[:page], :per_page => 30) || []
   end
 
   def show
@@ -53,7 +53,7 @@ class RentersController < ApplicationController
       end
     else
       flash[:notice] = "This customer has a suit in hold."
-      redirect_to @user
+      redirect_to renters_path
     end
   end
 

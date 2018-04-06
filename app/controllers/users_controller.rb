@@ -5,7 +5,76 @@ class UsersController < ApplicationController
   end
   
   def index
-    @user = User.all
+       redirect = false
+    
+    if params[:commit]
+      @commit = params[:commit]
+    else 
+      @commit = nil
+    end
+    
+    if @commit == "Clear" 
+      # flash.delete
+      session[:sort_by] = nil
+      session[:type] = nil
+      session[:search] = nil
+      redirect_to users_path :sort_by=>nil,:type => nil,:search => nil
+      return
+    end
+    
+    # if params[:search]
+    #   @user = User.search(params[:type],params[:search])
+    # else 
+    #   @user = User.all
+    # end
+    
+    
+    # if params[:sort_by]
+    #   @sort_by = params[:sort_by]
+    # end
+    # if @sort_by
+    #   @user = @user.order(@sort_by).all
+    # end
+    
+    if params[:type] and params[:search]
+      @type = params[:type] 
+      session[:type] = params[:type]
+      @search = params[:search] 
+      session[:search] = params[:search]
+    elsif session[:type] and session[:search]
+      @type = session[:type] 
+      @search = session[:search]
+      redirect = true
+    else
+      @type = nil
+      @search = nil
+    end
+      
+    if params[:sort_by]
+      @sort_by = params[:sort_by]
+      session[:sort_by] = params[:sort_by]
+    elsif session[:sort_by]
+      @sort_by = session[:sort_by]
+      redirect = true
+    else
+      @sort_by = nil
+    end  
+    
+    if redirect 
+      flash.keep
+      redirect_to users_path :sort_by=>@sort_by,:type => @type,:search => @search
+    end
+    
+    
+    if @search and @type and @sort_by
+      @user = User.search(@type,@search).order(@sort_by).all
+    elsif @search and @type
+      @user = User.search(@type,@search)
+    elsif @sort_by
+      @user = User.order(@sort_by).all
+    else 
+      @user = User.all
+    end
   end
   
   def create

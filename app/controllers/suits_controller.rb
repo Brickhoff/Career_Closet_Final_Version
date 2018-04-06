@@ -7,7 +7,9 @@ class SuitsController < ApplicationController
     # GET /suits.json
     def index
         @search = Suit.ransack(params[:q])
-        @suits = @search.result().paginate(page: params[:page])
+        #@search.build_condition
+        @suits = @search.result.paginate(page: params[:page], :per_page => 30)
+        
     end
     
     
@@ -67,7 +69,7 @@ class SuitsController < ApplicationController
       def suit_params
           params.require(:suit).permit(:appid, :gender, :size, :article, :status)
       end
-      
+=begin
       def can_destroy
         @suits = Suit.find(params[:id])  
         renter_is_exist = Renter.where(suit_id: @suits.id).where.not(rentStatus:['Complete','Cancel']).size !=0
@@ -76,4 +78,5 @@ class SuitsController < ApplicationController
             redirect_to suit_path
         end
       end
+=end
 end

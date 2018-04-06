@@ -1,17 +1,17 @@
 module RentersHelper
         
-    def renter_fields
-        [:checkOutTime, :expectReturnTime, :returnTime, :status, :user_id, :suit_id]
-    end
     
     def action
         action_name == 'advance_search' ? :post : :get
     end
     
     def display_renter_sorted_column_headers(search)
-       renter_fields.each_with_object('') do |field, string|
-           string << content_tag(:th, sort_link(search, field, {}, method: action))
-       end
+           string = content_tag(:th, sort_link(search, :checkOutTime , "Check Out Time", method: action))
+           string << content_tag(:th, sort_link(search, :expectReturnTime , "Expected Return Time", method: action))
+           string << content_tag(:th, sort_link(search, :returnTime , "Return Time", method: action))
+           string << content_tag(:th, sort_link(search, :status , "Status", method: action))
+           string << content_tag(:th, sort_link(search, :user_uin_cont , "Customer UIN", method: action))
+           string << content_tag(:th, sort_link(search, :suit_appid_cont, "Suit App. ID", method: action))
     end
     
     def display_renter_sorted_search_results(objects)
@@ -21,16 +21,11 @@ module RentersHelper
     end
     
     def display_renter_sorted_search_results_row(object)
-        fieldCount = 0
-        renter_fields.each_with_object('') do |field, string|
-            if fieldCount == 0
-                string << content_tag(:td, link_to(object.send(field), '/renters/' + object.id.to_s))
-            else
-                string << content_tag(:td, object.send(field))
-            end
-            
-            fieldCount += 1
-        end
-        .html_safe
+            string = content_tag(:td, link_to(object.checkOutTime, '/renters/' + object.id.to_s))
+            string << content_tag(:td, object.expectReturnTime)
+            string << content_tag(:td, object.returnTime)
+            string << content_tag(:td, object.status)
+            string << content_tag(:td, User.find(object.user_id).uin)
+            string << content_tag(:td, Suit.find(object.suit_id).appid)
     end
 end
