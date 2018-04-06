@@ -1,50 +1,27 @@
-<h1>All Users</h1>
-<%= form_tag users_path, :method => :get do %>
-  <%= select_tag "type", raw("<option>first_name</option><option>last_name</option><option>uin</option><option>email</option><option>phone</option>"), id: 'unique_id' %>
-  <%= text_field_tag 'search', nil, placeholder: 'Enter search term...' %>
-  <%= submit_tag 'Search',:id=>"search_submit" %>
-  <%= submit_tag 'Clear',:id=>"clear_submit" %>
+<h1>All Customers</h1>
+<div>
+<%= search_form_for @q_user do |f| %>
+  <%= f.label :uin, "Customers UIN:" %>
+  <%= f.search_field :uin_cont %>
+  <%= f.submit %>
 <% end %>
-<table id="user">
-  <thead>
-    <tr>
-      <th>
-        <%= link_to 'First name  ',users_path(:sort_by=>'first_name') %>
-      </th>
-      <th>
-        <%= link_to 'Last name  ',users_path(:sort_by=>'last_name') %>
-      </th>
-      <th>
-        <%= link_to 'UIN  ',users_path(:sort_by=>'uin') %>
-      </th>
-      <th>
-        <%= link_to 'Email  ',users_path(:sort_by=>'email') %>
-      </th>
-      <th>
-        <%= link_to 'Phone  ',users_path(:sort_by=>'phone') %>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @user.each do |user| %>
-      <tr>
-        <td>
-          <%= user.first_name %>
-        </td>
-        <td>
-          <%= user.last_name %>
-        </td>
-        <td>
-          <%= user.uin  %>
-        </td>
-        <td>
-          <%= user.email  %>
-        </td>
-        <td>
-          <%= user.phone  %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+</div>
+
+
+<div>
+&nbsp;
+</div>
+
+<div>
+<%= will_paginate %>
+<%= content_tag :table, class: 'table' do %>
+   <%= content_tag :thead, display_user_sorted_column_headers(@q_user), nil, false %>
+   <%= content_tag :tbody, display_user_sorted_search_results(@users), nil, false %>
+<% end %>
+<%= will_paginate %>
+</div>
+
+<p>
+    <%= link_to "Back to Customers List", users_path %>
+</p>
 
