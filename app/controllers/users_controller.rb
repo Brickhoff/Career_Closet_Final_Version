@@ -18,7 +18,8 @@ class UsersController < ApplicationController
         @users = User.new(user_params)
         if @users.save
             flash[:notice] = "Welcome to Career Closet #{@users.full_name}"
-            redirect_to users_path(@users)
+            user_log_in @users
+            redirect_to appointments_path
         else
             render 'new'
         end
