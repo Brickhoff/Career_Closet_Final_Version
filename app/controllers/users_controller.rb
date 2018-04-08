@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   def create
         @users = User.new(user_params)
         if @users.save
-            flash[:notice] = "Welcome to Career Closet #{@user.username}"
+            flash[:notice] = "Welcome to Career Closet #{@users.full_name}"
             redirect_to users_path(@users)
         else
             render 'new'

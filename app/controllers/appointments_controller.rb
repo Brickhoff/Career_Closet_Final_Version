@@ -14,7 +14,6 @@ class AppointmentsController < ApplicationController
       @appointments = @search_appointment.result().paginate(page: params[:page], per_page:10)
       #@appointments = current_user.appointments.all.paginate(page: params[:page], per_page:10)
     end
-    #@appointments = Appointment.all
   end
 
   # GET /appointments/1
@@ -89,8 +88,9 @@ class AppointmentsController < ApplicationController
         redirect_to root_path
       end
     end
+
     def require_user
-      if !user_logged_in?
+      if !(user_logged_in? || admin_logged_in?)
         flash[:danger] = "You must be logged in to perform that action"
         redirect_to root_path
       end
