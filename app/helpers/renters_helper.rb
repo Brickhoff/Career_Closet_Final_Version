@@ -1,6 +1,5 @@
 module RentersHelper
         
-    
     def action
         action_name == 'advance_search' ? :post : :get
     end

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   get 'renters/edit'
 
-  get 'appointments', to: 'appointments#new'
+  get 'appointments', to: 'appointments#index'
 
   get    '/adminsignup',  to: 'admins#new'
   get    '/adminlogin', to: 'adminsession#new'
@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   get    '/login',   to: 'session#new'
   post   '/login',   to: 'session#create'
   delete '/logout',  to: 'session#destroy'
-  resources :users, :suits, :admins, :renters
+  resources :users, :suits, :admins, :renters, :appointments
   resources :users do
     resources :suits
   end

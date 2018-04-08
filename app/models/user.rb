@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :renters
+  has_many :appointments
   has_many :suits, :through => :renters
   #scope :uin, -> {where(:uin => true)}
   

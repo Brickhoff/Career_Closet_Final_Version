@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<h1 align="center">Listing Appointments</h1>
+
+<br>
+
+<div align="center"><%= will_paginate %></div>
+
+<%= content_tag :table, class: 'table' do %>
+   <%= content_tag :thead, display_appointment_sorted_column_headers(@search_appointment), nil, false %>
+   <%= content_tag :tbody, display_appointment_sorted_search_results(@appointments), nil, false %>
+<% end %>
+<div align="center"><%= will_paginate %></div>
+
+<%= link_to 'New Appointment', new_appointment_path %>

@@ -7,7 +7,6 @@ class SuitsController < ApplicationController
     # GET /suits.json
     def index
         @search = Suit.ransack(params[:q])
-        #@search.build_condition
         @suits = @search.result.paginate(page: params[:page], :per_page => 30)
         
     end
@@ -54,11 +53,15 @@ class SuitsController < ApplicationController
     
     def destroy
         @suits =Suit.find(params[:id])
-        #renters = Renter.where(suit_id: @suits.id)
-        #renters.destroy.all
-        @suits.destroy
-        flash[:success] = "Suit was succussfully deleted"
-        redirect_to suits_path
+        @renters = Renter.where(suit_id: @suits.id)
+        if @renters.blank?
+            @suits.destroy
+            flash[:success] = "Suit was succussfully deleted"
+            redirect_to suits_path
+        else
+            flash[:success] = "Suit cannnot be deleted, Please return the suit."
+            redirect_to suits_path
+        end
     end
     
     private

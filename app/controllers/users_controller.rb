@@ -13,6 +13,17 @@ class UsersController < ApplicationController
   def edit
       @users = User.find(params[:id])
   end
+  
+  def create
+        @users = User.new(user_params)
+        if @users.save
+            flash[:notice] = "Welcome to Career Closet #{@user.username}"
+            redirect_to users_path(@users)
+        else
+            render 'new'
+        end
+  end
+  
   def update
       @users = User.find(params[:id])
       if @users.update_attributes(user_params)

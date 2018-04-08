@@ -8,9 +8,13 @@
 
 <div>
 <%= search_form_for @search do |f| %>
-  <%= f.label :appid %>
-  <%= f.search_field :appid_cont %>
-  <%= f.submit %>
+    <%= f.label "App. ID" %>
+    <%= f.search_field :appid_cont %><br>
+    <%= f.label :gender %>
+    <%= f.collection_select :gender_cont, Suit.select("distinct gender"), :gender, :gender, {:include_blank => "Please select gender"} %><br>
+    <%= f.label :size %>
+    <%= f.collection_select :size_cont, Suit.select("distinct size"), :size, :size, {:include_blank => "Please select size"} %><br>
+    <%= f.submit "Search" %>
 <% end %>
 </div>
 
