@@ -20,14 +20,14 @@ module SuitsHelper
     end
     
     def display_suit_sorted_search_results_row(object)
-        @find = Renter.where(suit_id: object.id)
+        @find = Renter.where(:suit_id => object.id)
         string = content_tag(:td, link_to(object.appid, '/suits/' + object.id.to_s))
         string << content_tag(:td, object.gender)
         string << content_tag(:td, object.size)
         if @find.blank?
             string << content_tag(:td, "" )
         else
-            string << content_tag(:td, User.find((Renter.find(object.id)).user_id).uin)
+            string << content_tag(:td, User.find((Renter.find_by_suit_id(object.id)).user_id).uin)
         end
         string << content_tag(:td, object.status)
         string << content_tag(:td, link_to('Edit', edit_suit_path(object)) +'|'+link_to('Delete', object, method: :delete, data: { confirm: 'Are you sure?' } ))

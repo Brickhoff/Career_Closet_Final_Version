@@ -11,8 +11,9 @@ class Suit < ApplicationRecord
   validates :article, presence: true
   validates :size, presence: true
   validates :status, presence: true, inclusion: {in: statuses}
-    
+=begin
   def isAvailable?
     status == "Available"
   end
+=end
 end
