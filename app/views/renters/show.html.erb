@@ -3,13 +3,19 @@
 <div class= "row">
     <aside class = "col-md-4">
         <section>
-            <%= label_tag "Customer Name and UIN" %>
-            <%= User.find(@renters.user_id).first_name + ": " +  User.find(@renters.user_id).uin %><br>
-            <%= label_tag "Checkout Time" %>
+            <%= label_tag "Customer Name: " %>
+            <%= @users.full_name %><br>
+            <%= label_tag "Customer UIN: " %>
+            <%= @users.uin %><br>
+            <%= label_tag "Email: " %>
+            <%= @users.email %><br>
+            <%= label_tag "Phone: " %>
+            <%= @users.phone %><br>
+            <%= label_tag "Checkout Time: " %>
             <%= @renters.checkOutTime %><br>
-            <%= label_tag "Expect Return Time" %>
+            <%= label_tag "Expect Return Time: " %>
             <%= @renters.expectReturnTime %><br>
-            <%= label_tag "status" %>
+            <%= label_tag "status: " %>
             <%= @renters.status %><br>
         </section>
     </aside>

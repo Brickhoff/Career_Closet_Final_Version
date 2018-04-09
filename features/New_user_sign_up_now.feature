@@ -13,22 +13,30 @@ Scenario: new user sign up
   When I am on the login page
   And I follow "Sign up now!"
   Then I should be on the signup page 
-  And I fill in "First name" with "Xuezhang"
-  And I fill in "Last name" with "Wu"
+  And I fill in "First Name" with "Xuezhang"
+  And I fill in "Last Name" with "Wu"
   And I fill in "UIN" with "123456789"
   And I fill in "Phone" with "1234567891"
   And I fill in "Email" with "brickhoff@tamu.edu"
-  And I fill in "password" with "123456789"
-  And I fill in "password_confirmation" with "123456789"
+  And I fill in "Password" with "123456789"
+  And I fill in "Password Confirmation" with "123456789"
   And I press "Create my account"
   Then I should see "Welcome to Career Closet Xuezhang"
+  And I follow "Setting"
+  And I should see "Update your profile"
+  And I fill in "Phone" with "1234567890"
+  And I fill in "Password" with "123456789"
+  And I fill in "Password Confirmation" with "123456789"
+  And I press "Save change"
+  And I should see "Your account was updated successfully"
+  
 
 Scenario: new user sign up without password
   When I am on the login page
   And I follow "Sign up now!"
   Then I should be on the signup page 
-  And I fill in "First name" with "Xuezhang"
-  And I fill in "Last name" with "Wu"
+  And I fill in "First Name" with "Xuezhang"
+  And I fill in "Last Name" with "Wu"
   And I fill in "UIN" with "123456789"
   And I fill in "Phone" with "1234567891"
   And I fill in "Email" with "brickhoff@tamu.edu"
@@ -36,3 +44,10 @@ Scenario: new user sign up without password
   Then I should see "The form contains 4 errors"
 
 # to be continued
+
+Scenario: user sign out
+  When I am on the appointments page
+  Then "Account" should be selected for me
+  And I follow "Log out"
+  Then I should be on the login page
+

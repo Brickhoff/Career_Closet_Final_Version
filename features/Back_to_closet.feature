@@ -19,9 +19,9 @@ Scenario: add new closet in suits system
   Then I should be on the suits new page
   And I should see "Create a new suit"
   And I fill in "App. ID" with "M1234"
-  And I fill in "Gender" with "M"
+  And I select "M" from "Gender"
   And I fill in "Article" with "Genreral"
   And I fill in "Size" with "XL"
+  And I select "Available" from "Status"
   Then I press "Create Suit"
-  #And I should see "M1234"
-  #after finish association, we should continue on this part.
+  And I should see "Suit was succussfully added to the Closet!"

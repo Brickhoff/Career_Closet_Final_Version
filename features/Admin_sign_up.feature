@@ -30,3 +30,4 @@ Scenario: admin signup with password
   And I fill in "Password Confirmation" with "123456"
   And I press "Create my admin account"
   Then I should see "Welcome to Career Closet Admin Interface! Henry"
+  

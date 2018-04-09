@@ -11,6 +11,7 @@ class RentersController < ApplicationController
 
   def show
     @renters = Renter.find(params[:id])
+    @users = User.find(@renters.user_id)
   end
 
   def new
