@@ -54,11 +54,11 @@ class SuitsController < ApplicationController
     def destroy
         @suits =Suit.find(params[:id])
         @renters = Renter.where(suit_id: @suits.id)
-        if @renters.blank?
+        if @renters.blank? && @suits.status != "Checkout"
             @suits.destroy
             flash[:success] = "Suit was succussfully deleted"
             redirect_to suits_path
-        else
+        elsif @suits.status == "Checkout"
             flash[:success] = "Suit cannnot be deleted, Please return the suit."
             redirect_to suits_path
         end

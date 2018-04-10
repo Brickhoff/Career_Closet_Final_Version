@@ -45,9 +45,3 @@ Scenario: new user sign up without password
 
 # to be continued
 
-Scenario: user sign out
-  When I am on the appointments page
-  Then "Account" should be selected for me
-  And I follow "Log out"
-  Then I should be on the login page
-
