@@ -6,6 +6,7 @@ RSpec.describe Suit, :type => :model do
         subject.appid = "Anything"
         subject.size = "Anything"
         subject.gender = "Anything"
+        subject.status = "Anything"
         expect(subject).to be_valid
     end
     it "is not valid without an appid" do

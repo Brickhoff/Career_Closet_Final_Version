@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 20180408003717) do
 
   create_table "renters", force: :cascade do |t|
     t.datetime "checkOutTime", null: false
-    t.datetime "pickUpTime"
     t.datetime "expectReturnTime", null: false
     t.datetime "returnTime"
     t.string "status", default: "Available"
