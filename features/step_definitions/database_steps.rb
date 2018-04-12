@@ -21,3 +21,9 @@ Given /^the following suits exist:$/ do |suits_table|
         Suit.create suit
     end
 end
+
+Given /^the following appointments exist:$/ do |appointments_table|
+    appointments_table.hashes.each do |appointments|
+        Appointment.create appointments
+    end
+end

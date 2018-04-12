@@ -51,7 +51,7 @@ class AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1.json
   def update
     respond_to do |format|
-      if @appointment.update(appointment_params)
+      if @appointments.update(appointment_params)
         format.html { redirect_to @appointments, notice: 'Appointment was successfully updated.' }
         format.json { render :show, status: :ok, location: @appointments }
       else
@@ -79,11 +79,11 @@ class AppointmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
-      params.require(:appointment).permit(:time, :appointments, :user_id)
+          params.require(:appointment).permit(:time, :appointments, :user_id)
     end
     
     def require_same_user
-      if current_user != @appointments.user and !admin_logged_in
+      if current_user != @appointments.user && current_admin != Admin.find(session[:admin_id])
         flash[:danger] = "You can only edit or delete your own appointments."
         redirect_to root_path
       end

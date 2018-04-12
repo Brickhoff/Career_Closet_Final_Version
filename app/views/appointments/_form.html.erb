@@ -19,7 +19,11 @@
   <div class="form-group">
     <%= f.label :time %><br>
     <%= f.datetime_select :time %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
+    <% if current_user %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+    <% elsif current_admin %>
+      <%= f.hidden_field :user_id, value: @appointments.user_id %>
+    <% end %>
   </div>
   <div class="actions">
     <%= f.submit %>

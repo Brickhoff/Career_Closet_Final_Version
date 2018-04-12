@@ -83,6 +83,6 @@ class RentersController < ApplicationController
   end
   
   def renter_params
-    params.require(:renter).permit(:checkOutTime, :pickUpTime, :expectReturnTime, :returnTime, :status, :user_id, :suit_id)
+    params.require(:renter).permit(:checkOutTime, :expectReturnTime, :returnTime, :status, :user_id, :suit_id)
   end
 end
