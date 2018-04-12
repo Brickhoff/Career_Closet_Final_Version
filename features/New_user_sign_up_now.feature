@@ -5,9 +5,26 @@ Feature: new user sign up now form login page
   I want to sign up to the website
 
 Background: suits have been added to database
+  Given the following users exist:
+  | first_name    |  last_name  |     uin   |   phone       |     email      |   available    |  password | password_confirmation | 
+  | Cathy         |     Zhang   | 123456789 |   9796863432  | cathy@tamu.edu |    false       | 123456    |   123456              |         
+  | Henry         |     Lin     | 123456790 |   9796823432  | henry@tamu.edu |    true        | 123456    |   123456              |
 
-
-  And I am on the login page
+Scenario: user log in
+  When I am on the login page
+  And I fill in "Email" with "cathy@tamu.edu"
+  And I fill in "Password" with "123456"
+  And I press "Log in"
+  And I should see "Listing Appointments"
+  And I follow "Log out"
+  Then I should see "Log in"
+  
+Scenario: user log in (sad path)
+  When I am on the login page
+  And I fill in "Email" with "cathy@tamu.edu"
+  And I fill in "Password" with "1234567"
+  And I press "Log in"
+  And I should see "Invalid combination of email and password."
 
 Scenario: new user sign up
   When I am on the login page
@@ -15,8 +32,8 @@ Scenario: new user sign up
   Then I should be on the signup page 
   And I fill in "First Name" with "Xuezhang"
   And I fill in "Last Name" with "Wu"
-  And I fill in "UIN" with "123456789"
-  And I fill in "Phone" with "1234567891"
+  And I fill in "UIN" with "123456791"
+  And I fill in "Phone" with "1234567912"
   And I fill in "Email" with "brickhoff@tamu.edu"
   And I fill in "Password" with "123456789"
   And I fill in "Password Confirmation" with "123456789"
@@ -41,7 +58,7 @@ Scenario: new user sign up without password
   And I fill in "Phone" with "1234567891"
   And I fill in "Email" with "brickhoff@tamu.edu"
   And I press "Create my account"
-  Then I should see "The form contains 4 errors"
+  Then I should see "The form contains 5 errors"
 
 # to be continued
 

@@ -23,8 +23,8 @@ class AdminsController < ApplicationController
   end
   def update
       @admins= Admin.find(params[:id])
-      if @admin.update_attributes(admin_params)
-          flash[:success] = "Your account was updated successfully"
+      if @admins.update_attributes(admin_params)
+          flash[:success] = "Your account was updated successfully."
           redirect_to suits_path
       else
           render 'edit'
