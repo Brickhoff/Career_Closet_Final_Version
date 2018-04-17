@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180408003717) do
+ActiveRecord::Schema.define(version: 20180413212125) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
@@ -29,6 +29,18 @@ ActiveRecord::Schema.define(version: 20180408003717) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_appointments_on_user_id"
+  end
+
+  create_table "histories", force: :cascade do |t|
+    t.integer "suit_id"
+    t.integer "user_id"
+    t.datetime "checkOutTime"
+    t.datetime "expectReturnTime"
+    t.datetime "returnTime"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["suit_id"], name: "index_histories_on_suit_id"
+    t.index ["user_id"], name: "index_histories_on_user_id"
   end
 
   create_table "renters", force: :cascade do |t|
@@ -61,8 +73,13 @@ ActiveRecord::Schema.define(version: 20180408003717) do
     t.string "phone"
     t.string "email"
     t.boolean "available", default: true
+    t.boolean "email_confirmed", default: false
+    t.integer "suitCount", default: 0
+    t.string "confirm_token"
     t.string "password_digest"
     t.string "remember_digest"
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

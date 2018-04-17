@@ -32,7 +32,7 @@ class AdminsController < ApplicationController
   end
   
   def show
-      @admins = Admin.find(params[:id])
+      @admin = Admin.find(params[:id])
   end
   
   private

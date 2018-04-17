@@ -6,9 +6,14 @@ class SessionController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
    
     if user && user.authenticate(params[:session][:password])
-      user_log_in user
-      user_remember user
-      redirect_to appointments_path
+      if user.email_confirmed
+        user_log_in user
+        params[:session][:remember_me] == '1' ? user_remember(user) : user_forget(user)
+        redirect_to appointments_path, notice: "Logged in!"
+      else
+        flash[:notice] = "Please activate your account."
+        redirect_to root_path
+      end
     else
       flash[:error] = "Invalid combination of email and password."
       render 'new'

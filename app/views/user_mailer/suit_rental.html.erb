@@ -1,0 +1,27 @@
+Hi <%= @user.full_name %>
+
+You just rent a suit from TAMU Closet. Please confirm following information: 
+<%= label_tag "Customer Name:" %>
+<%= @user.full_name %><br>
+<%= label_tag "Customer UIN:" %>
+<%= @user.uin %><br>
+<%= label_tag "Email:" %>
+<%= @user.email %><br>
+<%= label_tag "Phone:" %>
+<%= @user.phone %><br>
+<%= label_tag "App. ID:" %>
+<%= @suit.appid %><br>
+<%= label_tag "Gender:" %>
+<%= @suit.gender %><br>
+<%= label_tag "Article:" %>
+<%= @suit.article %><br>
+<%= label_tag "Size:" %>
+<%= @suit.size %><br>
+<%= label_tag "Checkout Time:" %>
+<%= @renter.checkOutTime %><br>
+<%= label_tag "Expect Return Time:" %>
+<%= @renter.expectReturnTime %><br>
+
+If you have any question, please contact TAMU Closet.
+
+Team TAMU Closet

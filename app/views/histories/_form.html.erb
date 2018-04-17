@@ -1,0 +1,42 @@
+<%= form_with(model: history, local: true) do |form| %>
+  <% if history.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(history.errors.count, "error") %> prohibited this history from being saved:</h2>
+
+      <ul>
+      <% history.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :suit_id, "App. ID" %>
+    <%= form.collection_select :suit_id, Suit.all, :id, lambda { |s| "#{s.appid}"}, {:prompt => "Please select a suit"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id, "UIN of costumer:" %>
+    <%= form.collection_select :user_id, User.all, :id, lambda { |u| "#{u.uin}"}, {:prompt => "Please select Customer UIN"} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :checkOutTime, "Check out time:" %>
+    <%= form.datetime_select :checkOutTime, id: :history_checkOutTime %>
+  </div>
+
+  <div class="field">
+    <%= form.label :expectReturnTime, "Expected return time:" %>
+    <%= form.datetime_select :expectReturnTime, id: :history_expectReturnTime %>
+  </div>
+
+  <div class="field">
+    <%= form.label :returnTime, "Return time:" %>
+    <%= form.datetime_select :returnTime, id: :history_returnTime %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

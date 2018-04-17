@@ -15,36 +15,36 @@ class SuitsController < ApplicationController
     # GET /suits/1
     # GET /suits/1.json
     def show
-        @suits = Suit.find(params[:id])
+        @suit = Suit.find(params[:id])
     end
     
     
     # GET /suits/new
     def new 
-        @suits = Suit.new
+        @suit = Suit.new
     end
     
     
     # GET /suits/1/edit
     def edit
-        @suits = Suit.find(params[:id])
+        @suit = Suit.find(params[:id])
     end
     
     
     def create
-        @suits = Suit.new(suit_params)
-        if @suits.save
+        @suit = Suit.new(suit_params)
+        if @suit.save
             flash[:notice] = "Suit was succussfully added to the Closet!"
-            redirect_to suit_path(@suits)
+            redirect_to suit_path(@suit)
         else
             render 'new'
         end
     end
     def update
-        @suits = Suit.find(params[:id])
-        if @suits.update(suit_params)
+        @suit = Suit.find(params[:id])
+        if @suit.update(suit_params)
             flash[:notice] = "Suit was succussfully updated"
-            redirect_to suit_path(@suits)
+            redirect_to suit_path(@suit)
         else
             render 'edit'
         end
@@ -52,13 +52,13 @@ class SuitsController < ApplicationController
 
     
     def destroy
-        @suits =Suit.find(params[:id])
-        @renters = Renter.where(suit_id: @suits.id)
-        if @renters.blank? && @suits.status != "Checkout"
-            @suits.destroy
+        @suit =Suit.find(params[:id])
+        @renter = Renter.where(suit_id: @suit.id)
+        if @renter.blank? && @suit.status != "Checkout"
+            @suit.destroy
             flash[:success] = "Suit was succussfully deleted"
             redirect_to suits_path
-        elsif @suits.status == "Checkout"
+        elsif @suit.status == "Checkout"
             flash[:success] = "Suit cannnot be deleted, Please return the suit."
             redirect_to suits_path
         end

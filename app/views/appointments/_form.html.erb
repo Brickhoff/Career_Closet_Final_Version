@@ -1,19 +1,19 @@
-<%= form_for(@appointments) do |f| %>
-  <% if @appointments.errors.any? %>
+<%= form_for(@appointment) do |f| %>
+  <% if @appointment.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@appointments.errors.count, "error") %> prohibited this appointment from being saved:</h2>
+      <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
 
       <ul>
-      <% @appointments.errors.full_messages.each do |message| %>
+      <% @appointment.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
-  <% if @appointments.user_id.blank? %>
+  <% if @appointment.user_id.blank? %>
     <% user_id = params[:user_id] %>
   <% else %>
-    <% user_id = @appointments.user_id %>
+    <% user_id = @appointment.user_id %>
   <% end %>
 
   <div class="form-group">
@@ -22,7 +22,7 @@
     <% if current_user %>
       <%= f.hidden_field :user_id, value: current_user.id %>
     <% elsif current_admin %>
-      <%= f.hidden_field :user_id, value: @appointments.user_id %>
+      <%= f.hidden_field :user_id, value: @appointment.user_id %>
     <% end %>
   </div>
   <div class="actions">

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   get 'renters', to: 'renters#index'
   
   #get 'renters/index'
@@ -33,8 +37,22 @@ Rails.application.routes.draw do
   get    '/login',   to: 'session#new'
   post   '/login',   to: 'session#create'
   delete '/logout',  to: 'session#destroy'
-  resources :users, :suits, :admins, :renters, :appointments
+  resources :users, :suits, :admins, :renters, :appointments, :histories
+  resources :password_resets,     only: [:new, :create, :edit, :update]
+
   resources :users do
     resources :suits
+  end
+  
+  resources :users do
+    member do
+      get :confirm_email
+    end
+  end
+  
+  resources :renters do
+    member do
+      put :remind
+    end
   end
 end

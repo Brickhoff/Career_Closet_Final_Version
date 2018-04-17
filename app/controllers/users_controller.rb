@@ -1,8 +1,12 @@
 class UsersController < ApplicationController
   include UsersHelper
+  
+  before_action :logged_in_user, only: [:edit, :update]
+  before_action :correct_user,   only: [:edit, :update]
+  before_action :correct_admin,   only: [:index, :edit, :update, :destroy]
 
   def new
-    @users = User.new
+    @user = User.new
   end
   
   def index
@@ -11,23 +15,38 @@ class UsersController < ApplicationController
   end
   
   def edit
-      @users = User.find(params[:id])
+      @user = User.find(params[:id])
   end
   
   def create
-        @users = User.new(user_params)
-        if @users.save
-            flash[:notice] = "Welcome to Career Closet #{@users.full_name}"
-            user_log_in @users
-            redirect_to appointments_path
+        @user = User.new(user_params)
+        if @user.save
+            UserMailer.registration_confirmation(@user).deliver
+            flash[:success] = "Welcome to Career Closet #{@user.full_name}! Please cnofirm your email address."
+            #user_log_in @user
+            redirect_to root_path
         else
+            flash[:error] = "Please confirm your registration."
             render 'new'
         end
   end
   
+  def confirm_email
+    @user = User.find_by_confirm_token(params[:id])
+    if @user
+      @user.email_activate
+      flash[:success] = "Welcome to TAMU Closet! Your account has now been confirmed."
+      redirect_to root_path
+    else
+      flash[:error] = "User does not exist."
+      redirect_to signup_path
+    end
+  end
+  
+  
   def update
-      @users = User.find(params[:id])
-      if @users.update_attributes(user_params)
+      @user = User.find(params[:id])
+      if @user.update_attributes(user_params)
           flash[:success] = "Your account was updated successfully"
           redirect_to appointments_path if user_logged_in?
           redirect_to users_path if admin_logged_in? 
@@ -37,12 +56,44 @@ class UsersController < ApplicationController
   end
   
   def show
-      @users = User.find(params[:id])
+      @user = User.find(params[:id])
   end
+  
+  def destroy
+    @user = User.find(params[:id])
+    @renter = Renter.where(user_id: @user.id)
+    if @renter.blank?
+      @user.destroy
+      flash[:notice] = "The customer data is delete."
+    else
+      flash[:notice] = "You can not destroy customer data because he or she hold a suit."
+    end
+    redirect_to users_path
+  end
+  
+  
+  
   
   private
   def user_params
       params.require(:user).permit(:first_name, :last_name, :uin, :phone, :email, :password, :password_confirmation)
   end
   
+  def logged_in_user
+    if !(user_logged_in? || admin_logged_in?)
+      flash[:danger] = "You must be logged in to perform that action"
+      redirect_to root_path
+    end
+  end
+  
+  def correct_user
+    if !current_user  && !current_admin
+      flash[:danger] = "You can only edit or delete your own appointments."
+      redirect_to root_path
+    end
+  end
+  
+  def correct_admin
+    redirect_to(root_path) if !current_admin
+  end
 end

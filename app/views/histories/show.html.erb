@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<div class= "row">
+    <aside class = "col-md-4">
+        <section>
+            <%= label_tag "Customer Name:" %>
+            <%= @user.full_name %><br>
+            <%= label_tag "Customer UIN:" %>
+            <%= @user.uin %><br>
+            <%= label_tag "Email:" %>
+            <%= @user.email %><br>
+            <%= label_tag "Phone:" %>
+            <%= @user.phone %><br>
+            <%= label_tag "App. ID:" %>
+            <%= @suit.appid %><br>
+            <%= label_tag "Gender:" %>
+            <%= @suit.gender %><br>
+            <%= label_tag "Article:" %>
+            <%= @suit.article %><br>
+            <%= label_tag "Size:" %>
+            <%= @suit.size %><br>
+            <%= label_tag "Checkout Time:" %>
+            <%= @history.checkOutTime %><br>
+            <%= label_tag "Expect Return Time:" %>
+            <%= @history.expectReturnTime %><br>
+            <%= label_tag "Return Time:" %>
+            <%= @history.returnTime %><br>
+        </section>
+    </aside>
+</div>
+
+
+<%= link_to "Edit",edit_history_path(@history) %></td>
+<%= link_to "Delete", history_path(@history), method: :delete, data: {confirm: "Are you sure?"} %><br>
+<%= link_to "Back to Closet", histories_path %> <br>

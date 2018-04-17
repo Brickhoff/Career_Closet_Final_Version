@@ -1,5 +1,6 @@
 class Suit < ApplicationRecord
   has_many :renters
+  has_many :histories
   has_many :users, :through => :renters
   #scope :appid, -> {where(:appid => true)}
   enum statuses: [:Available, :Reserved, :Checkout, :Damaged]

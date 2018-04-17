@@ -1,9 +1,20 @@
-<h1>Welcome admin, <%= @admins.name %> Profile</h1>
+<h1>Welcome admin, <%= @admin.name %> Profile</h1>
+
+<div class= "row">
+    <aside class = "col-md-4">
+        <section>
+            <%= label_tag "Administrator Name: " %>
+            <%= @admin.name %><br>
+            <%= label_tag "Email: " %>
+            <%= @admin.email %><br>
+        </section>
+    </aside>
+</div>
 
 <p>
-    <%= link_to "Back to Closet", suits_path %>
+    <%= link_to "Edit",edit_admin_path(@admin) %></td>
 </p>
 
 <p>
-    <%= link_to "Back to see all users", users_path %>
+    <%= link_to "Back to System", appointments_path %>
 </p>

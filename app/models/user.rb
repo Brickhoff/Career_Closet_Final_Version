@@ -1,10 +1,13 @@
 class User < ApplicationRecord
+  before_save   :downcase_email
+  before_create :confirmation_token
   has_many :renters
+  has_many :histories
   has_many :appointments
   has_many :suits, :through => :renters
   #scope :uin, -> {where(:uin => true)}
   
-  attr_accessor :remember_token
+  attr_accessor :remember_token, :reset_token
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :first_name, presence: true, length: { maximum: 50 }
   validates :last_name, presence: true, length: { maximum: 50 }
@@ -15,9 +18,6 @@ class User < ApplicationRecord
   validates :phone, presence: true, uniqueness: true, length:{minimum: 10, maximum: 10}
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true, length: { minimum: 6 }
-  validates :password, presence: true, length: { minimum: 6 }, allow_blank: true 
-  validates :password_confirmation, presence: true, length: { minimum: 6 }, allow_blank: true 
-  
   has_secure_password
   
   def User.digest(string)
@@ -35,9 +35,10 @@ class User < ApplicationRecord
     update_attribute(:remember_digest, User.digest(remember_token))
   end
   
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
   
   def full_name
@@ -47,4 +48,39 @@ class User < ApplicationRecord
   def forget
     update_attribute(:remember_digest, nil)
   end
+  
+  def email_activate
+    self.email_confirmed = true
+    self.confirm_token = nil
+    save!(:validate => false)
+  end
+  
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest, User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+  
+  def send_passward_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+  
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+  
+  
+  private
+  
+  def confirmation_token
+    if self.confirm_token.blank?
+      self.confirm_token = SecureRandom.urlsafe_base64.to_s
+    end
+  end
+  
+  def downcase_email
+      self.email = email.downcase
+  end
+  
+  
 end

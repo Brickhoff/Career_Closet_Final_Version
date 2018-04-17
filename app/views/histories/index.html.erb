@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Histories</h1>
+
+<%= search_form_for @search_history do |f| %>
+    <%= f.label :suit_appid_cont, "Suit App. ID:" %>
+    <%= f.collection_select :suit_appid_cont, Suit.select("distinct appid"), :appid, :appid, {:include_blank => "Please select a suit."} %>
+    <%= f.label :user_uin_cont, "Customer UIN:" %>
+    <%= f.collection_select :user_uin_cont, User.select("distinct uin"), :uin, :uin, {:include_blank => "Please select a Customer UIN."} %>
+    <%= f.submit "Search" %>
+<% end %>
+<br>
+
+
+<%= will_paginate %>
+
+<%= content_tag :table, class: 'table' do %>
+  <%= content_tag :thead, display_history_sorted_column_headers(@search_history), nil, false  %>
+  <%= content_tag :tbody, display_history_sorted_search_results(@histories), nil, false  %>
+<% end %>
+
+<%= will_paginate %>
+
+<%= link_to 'New History', new_history_path %>

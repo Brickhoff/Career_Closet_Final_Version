@@ -10,19 +10,20 @@ class RentersController < ApplicationController
   end
 
   def show
-    @renters = Renter.find(params[:id])
-    @users = User.find(@renters.user_id)
+    @renter = Renter.find(params[:id])
+    @user = User.find(@renter.user_id)
+    @suit = Suit.find(@renter.suit_id)
   end
 
   def new
     #save suit_id and user_id in Renter database in the samw row
     
     #renter user and suits information for confirm
-    @renters = Renter.new
+    @renter = Renter.new
   end
 
   def edit
-    @renters = Renter.find(params[:id])
+    @renter = Renter.find(params[:id])
   end
 
   def create
@@ -41,47 +42,92 @@ class RentersController < ApplicationController
     
     #select user with user id in User database
     @user=User.find(@user_id)
-    if @user.available
-      @renters = Renter.new(renter_params)
-      if @renters.save
+    if @user.suitCount < 2
+      @renter = Renter.new(renter_params)
+      if @renter.save
         flash[:success] = "Suit is checked out."
-        @suits = Suit.find(@suit_id)
-        @suits.update_attribute(:status, "Checkout")
-        @user.update_attribute(:available, "false")
-        redirect_to @renters
+        @suit = Suit.find(@suit_id)
+        @suit.update_attribute(:status, "Checkout")
+        @user.update_attribute(:suitCount, @user.suitCount + 1)
+        create_rental_history(@user_id, @suit_id, Time.now, @renter.expectReturnTime) #history record
+        UserMailer.suit_rental(@user,@suit,@renter).deliver
+        redirect_to @renter
       else
         redirect_to new_renter_path(:suit_id => @suit_id)
       end
     else
-      flash[:notice] = "This customer has a suit in hold."
+      flash[:notice] = "This customer has two suit in hold."
       redirect_to renters_path
     end
   end
+  
+  #rental history
+  def create_rental_history(user_id,suit_id,checkOutTime, expectReturnTime)
+    @rental_history = History.new
+    @rental_history.user_id = user_id
+    @rental_history.suit_id = suit_id
+    @rental_history.checkOutTime = checkOutTime
+    @rental_history.expectReturnTime =expectReturnTime
+    @rental_history.save!
+  end
 
   def update
-    @renters = Renter.find(params[:id])
-    if @renters.update(renter_params)
-      flash[:notice] = "The rent was update."
-      redirect_to renter_path(@renters)
+    @renter = Renter.find(params[:id])
+    if @renter.update(renter_params)
+      update_book_history(@renter.user_id, @renter.suit_id,@renter.checkOutTime, @renter.expectReturnTime)
+      flash[:notice] = "The rental information is update."
+      redirect_to renter_path(@renter)
     else
       render :edit
     end
   end
+  
+  def update_book_history(user_id, suit_id, checkOutTime, expectReturnTime)
+    @rental_history = History.find_by(:suit_id => suit_id, :user_id => user_id)
+    @rental_history.checkOutTime = checkOutTime
+    @rental_history.expectReturnTime = expectReturnTime
+    @rental_history.save!
+  end
 
   def destroy
-    @renters = Renter.find(params[:id])
-    if User.find(@renters.user_id) && Suit.find(@renters.suit_id)
-      User.find(@renters.user_id).update_attribute(:available, true)
-      Suit.find(@renters.suit_id).update_attribute(:status, "Available")
-      @renters.destroy
-      flash[:notice] = "Rent delete"
+    @renter = Renter.find(params[:id])
+    if User.find(@renter.user_id) && Suit.find(@renter.suit_id)
+      @user = User.find(@renter.user_id)
+      User.find(@renter.user_id).update_attribute(:suitCount, @user.suitCount - 1)
+      Suit.find(@renter.suit_id).update_attribute(:status, "Available")
+      Renter.find(@renter.id).update_attribute(:returnTime, Time.now)
+      
+      @user = User.find(@renter.user_id)
+      @suit = Suit.find(@renter.suit_id)
+      @renters = Renter.find(@renter.id)
+      complete_book_history(@renter.user_id, @renter.suit_id)
+      UserMailer.suit_return(@user,@suit,@renters).deliver
+      @renter.destroy
+      flash[:notice] = "Suit is returned to Closet!"
       redirect_to renters_path
     else
       flash[:notice] = "Please Check your customer UIN ans suit ID."
-      redirect_to renter_path(@renters)
+      redirect_to renter_path(@renter)
     end
   end
   
+  def complete_book_history(user_id, suit_id)
+    @rental_history = History.find_by(:suit_id => suit_id, :user_id => user_id)
+    @rental_history.returnTime = Time.now
+    @rental_history.save!
+  end
+  
+  def remind
+    @renter = Renter.find(params[:id])
+    @user = User.find(@renter.user_id)
+    @suit = Suit.find(@renter.suit_id)
+    @renters = Renter.find(@renter.id)
+    flash[:success] = 'Reminder is send!'
+    UserMailer.suit_return_reminder(@user,@suit,@renters).deliver
+    redirect_to renters_path
+  end
+  
+  private
   def renter_params
     params.require(:renter).permit(:checkOutTime, :expectReturnTime, :returnTime, :status, :user_id, :suit_id)
   end

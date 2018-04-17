@@ -4,24 +4,33 @@
     <aside class = "col-md-4">
         <section>
             <%= label_tag "Customer Name: " %>
-            <%= @users.full_name %><br>
+            <%= @user.full_name %><br>
             <%= label_tag "Customer UIN: " %>
-            <%= @users.uin %><br>
+            <%= @user.uin %><br>
             <%= label_tag "Email: " %>
-            <%= @users.email %><br>
+            <%= @user.email %><br>
             <%= label_tag "Phone: " %>
-            <%= @users.phone %><br>
-            <%= label_tag "Checkout Time: " %>
-            <%= @renters.checkOutTime %><br>
-            <%= label_tag "Expect Return Time: " %>
-            <%= @renters.expectReturnTime %><br>
+            <%= @user.phone %><br>
+            <%= label_tag "App. ID:" %>
+            <%= @suit.appid %><br>
+            <%= label_tag "Gender:" %>
+            <%= @suit.gender %><br>
+            <%= label_tag "Article:" %>
+            <%= @suit.article %><br>
+            <%= label_tag "Size:" %>
+            <%= @suit.size %><br>
+            <%= label_tag "Checkout Time:" %>
+            <%= @renter.checkOutTime %><br>
+            <%= label_tag "Expect Return Time:" %>
+            <%= @renter.expectReturnTime %><br>
             <%= label_tag "status: " %>
-            <%= @renters.status %><br>
+            <%= @renter.status %><br>
         </section>
     </aside>
 </div>
 
 
-<%= link_to "Edit",edit_renter_path(@renters) %></td>
-<%= link_to "Delete", renter_path(@renters), method: :delete, data: {confirm: "Are you sure?"} %><br>
+<%= link_to "Edit",edit_renter_path(@renter) %></td>
+<%= link_to "Delete", renter_path(@renter), method: :delete, data: {confirm: "Are you sure?"} %><br>
 <%= link_to "Back to Closet", renters_path %> <br>
+<%= button_to 'Remind cutomer to return the suit.', remind_renter_path(@renter), :method => :put %><br>

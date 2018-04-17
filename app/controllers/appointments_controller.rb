@@ -12,7 +12,6 @@ class AppointmentsController < ApplicationController
     elsif
       @search_appointment = current_user.appointments.ransack(params[:q])
       @appointments = @search_appointment.result().paginate(page: params[:page], per_page:10)
-      #@appointments = current_user.appointments.all.paginate(page: params[:page], per_page:10)
     end
   end
 
@@ -23,7 +22,7 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/new
   def new
-    @appointments = Appointment.new
+    @appointment = Appointment.new
   end
 
   # GET /appointments/1/edit
@@ -33,16 +32,22 @@ class AppointmentsController < ApplicationController
   # POST /appointments
   # POST /appointments.json
   def create
-    @appointments = Appointment.new(appointment_params)
-    @appointments.user = @current_user
+    @appointment = Appointment.new(appointment_params)
+    @appointment.user = @current_user
 
     respond_to do |format|
-      if @appointments.save
-        format.html { redirect_to @appointments, notice: 'Appointment was successfully created.' }
-        format.json { render :show, status: :created, location: @appointments }
+      if @current_user.available
+        if @appointment.save
+          User.find(@current_user.id).update_attribute(:available, false)
+          format.html { redirect_to @appointment, notice: 'Appointment was successfully created.' }
+          format.json { render :show, status: :created, location: @appointment }
+        else
+          format.html { render :new }
+          format.json { render json: @appointment.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render :new }
-        format.json { render json: @appointments.errors, status: :unprocessable_entity }
+          format.html { render :new, notice: 'You has one appointment.' }
+          format.json { render json: @appointment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -51,12 +56,12 @@ class AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1.json
   def update
     respond_to do |format|
-      if @appointments.update(appointment_params)
-        format.html { redirect_to @appointments, notice: 'Appointment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @appointments }
+      if @appointment.update(appointment_params)
+        format.html { redirect_to @appointment, notice: 'Appointment was successfully updated.' }
+        format.json { render :show, status: :ok, location: @appointment }
       else
         format.html { render :edit }
-        format.json { render json: @appointments.errors, status: :unprocessable_entity }
+        format.json { render json: @appointment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -64,8 +69,9 @@ class AppointmentsController < ApplicationController
   # DELETE /appointments/1
   # DELETE /appointments/1.json
   def destroy
-    @appointments.destroy
-    respond_to do |format|
+    User.find(@appointment.user_id).update_attribute(:available, true)
+    @appointment.destroy
+    respond_to do |format| 
       format.html { redirect_to appointments_url, notice: 'Appointment was successfully destroyed.' }
       format.json { head :no_content }
     end
@@ -74,7 +80,9 @@ class AppointmentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_appointment
-      @appointments = Appointment.find(params[:id])
+      if current_user || current_admin
+          @appointment = Appointment.find(params[:id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -83,15 +91,15 @@ class AppointmentsController < ApplicationController
     end
     
     def require_same_user
-      if current_user != @appointments.user && current_admin != Admin.find(session[:admin_id])
-        flash[:danger] = "You can only edit or delete your own appointments."
+      if !current_user  && !current_admin
+        flash[:danger] = "You only can edit your own information."
         redirect_to root_path
       end
     end
 
     def require_user
       if !(user_logged_in? || admin_logged_in?)
-        flash[:danger] = "You must be logged in to perform that action"
+        flash[:danger] = "Please log in to our perform."
         redirect_to root_path
       end
     end

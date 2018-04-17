@@ -3,20 +3,20 @@
     <aside class = "col-md-4">
         <section>
             <%= label_tag "App. ID" %>
-            <%= @suits.appid %><br>
+            <%= @suit.appid %><br>
             <%= label_tag "Gender" %>
-            <%= @suits.gender %><br>
+            <%= @suit.gender %><br>
             <%= label_tag "Article" %>
-            <%= @suits.article %><br>
+            <%= @suit.article %><br>
             <%= label_tag "Size" %>
-            <%= @suits.size %><br>
+            <%= @suit.size %><br>
             <%= label_tag "Status" %>
-            <%= @suits.status %><br>
+            <%= @suit.status %><br>
         </section>
     </aside>
 </div>
 
 
-<%= link_to "Edit",edit_suit_path(@suits) %></td>
-<%= link_to "Delete", suit_path(@suits), method: :delete, data: {confirm: "Are you sure?"} %><br>
+<%= link_to "Edit",edit_suit_path(@suit) %></td>
+<%= link_to "Delete", suit_path(@suit), method: :delete, data: {confirm: "Are you sure?"} %><br>
 <%= link_to "Back to Closet", suits_path %> <br>

@@ -1,14 +1,14 @@
 
-<% if @suits.errors.any? %>
+<% if @suit.errors.any? %>
 <h2>"The following errors prevented the article from getting created"</h2>
 <ul>
-    <% @suits.errors.full_messages.each do |msg| %>
+    <% @suit.errors.full_messages.each do |msg| %>
     <li><%= msg %></li>
     <% end %>
 </ul>
 <% end %>
 
-<%= form_for @suits do |f| %>
+<%= form_for @suit do |f| %>
    <p>
        <%= f.label :appid, "App. ID" %><br/>
        <%= f.text_field :appid, class: 'form-control' %>

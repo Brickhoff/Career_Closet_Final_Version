@@ -3,6 +3,14 @@
 <h1 align="center">Listing Appointments</h1>
 
 <br>
+<% if current_admin %>
+   <%= search_form_for @search_appointment do |f| %>
+       <%= f.label :user_uin_cont, "Customer UIN:" %>
+       <%= f.collection_select :user_uin_cont, User.select("distinct uin"), :uin, :uin, {:include_blank => "Please select a Customer UIN."} %>
+       <%= f.submit "Search" %>
+   <% end %>
+   <br>
+<% end %>
 
 <div align="center"><%= will_paginate %></div>
 
@@ -12,4 +20,6 @@
 <% end %>
 <div align="center"><%= will_paginate %></div>
 
-<%= link_to 'New Appointment', new_appointment_path %>
+<% if current_user %>
+   <%= link_to 'New Appointment', new_appointment_path %>
+<% end %>
