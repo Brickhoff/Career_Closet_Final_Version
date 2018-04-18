@@ -38,6 +38,7 @@ class AppointmentsController < ApplicationController
     respond_to do |format|
       if @current_user.available
         if @appointment.save
+          UserMailer.make_appointment(@current_user, @appointment).deliver
           User.find(@current_user.id).update_attribute(:available, false)
           format.html { redirect_to @appointment, notice: 'Appointment was successfully created.' }
           format.json { render :show, status: :created, location: @appointment }
@@ -55,8 +56,10 @@ class AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1
   # PATCH/PUT /appointments/1.json
   def update
+    @appointment.user = @current_user
     respond_to do |format|
       if @appointment.update(appointment_params)
+        UserMailer.edit_appointment(@current_user, @appointment).deliver
         format.html { redirect_to @appointment, notice: 'Appointment was successfully updated.' }
         format.json { render :show, status: :ok, location: @appointment }
       else
@@ -70,6 +73,10 @@ class AppointmentsController < ApplicationController
   # DELETE /appointments/1.json
   def destroy
     User.find(@appointment.user_id).update_attribute(:available, true)
+    @appointment.user = @current_user
+    if current_user
+      UserMailer.cancel_appointment(@current_user).deliver
+    end
     @appointment.destroy
     respond_to do |format| 
       format.html { redirect_to appointments_url, notice: 'Appointment was successfully destroyed.' }

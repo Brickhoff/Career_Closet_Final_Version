@@ -27,6 +27,23 @@ class UserMailer < ApplicationMailer
         mail(:to => "#{user.first_name} <#{user.email}>", :subject =>"Please return the rental suit to TAMU Closet")
     end
     
+    def make_appointment(user,appointment)
+        @user = user
+        @appointment = appointment
+        mail(:to => "#{user.first_name} <#{user.email}>", :subject => "Your appointment has been made.")
+    end
+    
+    def edit_appointment(user,appointment)
+        @user = user
+        @appointment = appointment
+        mail(:to => "#{user.first_name} <#{user.email}>", :subject => "Your appointment has been edited.")
+    end
+    
+    def cancel_appointment(user)
+        @user = user
+        mail(:to => "#{user.first_name} <#{user.email}>", :subject => "Your appointment has been canceled.")
+    end
+    
     def password_reset(user)
         @user = user
         mail(:to => "#{user.first_name} <#{user.email}>", :subject =>"Password reset")

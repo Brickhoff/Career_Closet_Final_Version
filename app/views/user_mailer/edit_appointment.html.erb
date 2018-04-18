@@ -1,0 +1,17 @@
+Hi <%= @user.full_name %>
+
+You just change your appointment time with TAMU Closet. Please confirm following information: 
+<%= label_tag "Customer Name:" %>
+<%= @user.full_name %><br>
+<%= label_tag "Customer UIN:" %>
+<%= @user.uin %><br>
+<%= label_tag "Email:" %>
+<%= @user.email %><br>
+<%= label_tag "Phone:" %>
+<%= @user.phone %><br>
+<%= label_tag "Time:" %>
+<%= @appointment.time %><br>
+
+If you have any question, please contact TAMU Closet.
+
+Team TAMU Closet
