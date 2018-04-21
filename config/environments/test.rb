@@ -11,6 +11,19 @@ Rails.application.configure do
   # just for the purpose of running a single test. If you are using a tool that
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
+  
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = {:host => "9fafeba279dc472b97d2a702a4f2e30b.vfs.cloud9.us-east-2.amazonaws.com"}
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'gmail.com',
+    user_name: 'tamucodezeta@gmail.com',
+    password: 'CodeZetaPassword',
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
 
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true

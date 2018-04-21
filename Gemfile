@@ -61,11 +61,13 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara'#, '~> 2.18.0'
+  gem 'guard-rspec'
   gem 'selenium-webdriver'
   gem 'sqlite3', '1.3.13'
   gem 'rspec-rails'
   gem 'database_cleaner'
   gem "factory_girl_rails", "~> 4.4.1"
+  gem 'rails-controller-testing'
 end
 
 group :development do
@@ -85,6 +87,7 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels'
   gem 'launchy'
+  gem 'email_spec'
 end
 
 group :production do

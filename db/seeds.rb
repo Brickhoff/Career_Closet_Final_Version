@@ -19,6 +19,11 @@ User.create!(first_name:  "Henry",
              email_confirmed: true)
 
 
+Admin.create!(name:  "Henry",
+             email: "henrysurface@gmail.com",
+             password:              "123456",
+             password_confirmation: "123456")
+
 
 100.times do |n|
   first_name  = Faker::Name.first_name

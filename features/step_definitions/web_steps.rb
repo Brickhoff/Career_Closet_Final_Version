@@ -58,7 +58,7 @@ When /^(?:|I )follow "([^"]*)"$/ do |link|
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-  fill_in(field, :with => value, exact: true)
+  fill_in(field, :with => value)
 end
 
 When /^(?:|I )fill in "([^"]*)" for "([^"]*)"$/ do |value, field|
@@ -236,7 +236,7 @@ Then /^(?:|I )should be on (.+)$/ do |page_name|
   end
 end
 
-Then /^(?:|I )should have the following query string: (.+)$/ do |expected_pairs|
+Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   query = URI.parse(current_url).query
   actual_params = query ? CGI.parse(query) : {}
   expected_params = {}

@@ -72,14 +72,4 @@ class SuitsController < ApplicationController
       def suit_params
           params.require(:suit).permit(:appid, :gender, :size, :article, :status)
       end
-=begin
-      def can_destroy
-        @suits = Suit.find(params[:id])  
-        renter_is_exist = Renter.where(suit_id: @suits.id).where.not(rentStatus:['Complete','Cancel']).size !=0
-        if @suits.status != "Available" || renter_is_exist
-            flash[:danger] = "This suit is in use. It cannot be deleted!"
-            redirect_to suit_path
-        end
-      end
-=end
 end

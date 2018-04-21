@@ -2,10 +2,11 @@ require 'faker'
 
 FactoryGirl.define do
     factory :suit do
-        appid "ABC 12"
+        appid {Faker::Number.number(3)}
         gender "M"
         size {Faker::Number.number(1)}
-        description "It's a good suit!"
+        article "It's a good suit!"
+        status "Available"
 
         factory :invalid_suit do 
             appid nil

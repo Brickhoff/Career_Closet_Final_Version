@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 20180413212125) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
-    t.string "string"
     t.string "email"
     t.string "password_digest"
     t.string "remember_digest"
@@ -24,7 +23,6 @@ ActiveRecord::Schema.define(version: 20180413212125) do
 
   create_table "appointments", force: :cascade do |t|
     t.datetime "time"
-    t.datetime "appointments"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

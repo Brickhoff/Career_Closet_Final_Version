@@ -24,118 +24,147 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe HistoriesController, type: :controller do
-
-  # This should return the minimal set of attributes required to create a valid
-  # History. As you add validations to History, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # HistoriesController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-
+  before :each do
+    admin_log_in
+  end
   describe "GET #index" do
-    it "returns a success response" do
-      history = History.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(response).to be_success
+
+    it "populates an array of histories" do
+      history = FactoryGirl.create(:history)
+      get :index
+      assigns(:histories).should eq([history])
+    end
+    it "renders the :index template" do
+      get :index
+      expect(response).to render_template :index
     end
   end
-
+  
   describe "GET #show" do
-    it "returns a success response" do
-      history = History.create! valid_attributes
-      get :show, params: {id: history.to_param}, session: valid_session
-      expect(response).to be_success
-    end
+      it "assigns the requested history to @histoy" do
+          history = FactoryGirl.create(:history)
+          get :show, params: { id: history.id}
+          assigns(:history).should eq(history)
+      end
+      
+      it "renders the :show template" do
+          get :show, params: {id: FactoryGirl.create(:history)}
+          expect(response).to render_template :show
+      end
   end
-
+  
   describe "GET #new" do
-    it "returns a success response" do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_success
-    end
+      it "assigns a new history to @history" do
+          get :new
+          assigns(:history).should be_a_new(History)
+      end
+      
+      it "renders the :new template" do
+          get :new
+          expect(response).to render_template :new
+      end
   end
-
-  describe "GET #edit" do
-    it "returns a success response" do
-      history = History.create! valid_attributes
-      get :edit, params: {id: history.to_param}, session: valid_session
-      expect(response).to be_success
-    end
+  
+  describe "GET#edit" do
+      it "assigns the requested history to @history" do
+          history = FactoryGirl.create(:history)
+          get :show, params: { id: history.id}
+          assigns(:history).should eq(history)
+      end
+      it "renders the :edit template" do
+          get :edit, params: { id: FactoryGirl.create(:history)}
+          expect(response).to render_template :edit
+      end
   end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new History" do
-        expect {
-          post :create, params: {history: valid_attributes}, session: valid_session
-        }.to change(History, :count).by(1)
-      end
-
-      it "redirects to the created history" do
-        post :create, params: {history: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(History.last)
-      end
+#Testing POST methods
+    describe "POST#create" do
+        context "with valid attributes" do
+            it "creates a new history" do
+                expect{
+                    post :create, params:{ history: FactoryGirl.build(:history).attributes.except('id', 'created_at', 'updated_at')}
+                }.to change(History,:count).by(1)
+            end
+            it "redirects to the new history" do
+                post :create, params:{ history: FactoryGirl.build(:history).attributes.except('id', 'created_at', 'updated_at')}
+                response.should redirect_to History.last
+            end
+        end
+        context "with invalid attributes" do
+            it "does not save the new history" do
+                expect{
+                    post :create, params:{ history: FactoryGirl.attributes_for(:invalid_history)}
+                }.to_not change(History,:count)
+            end
+            it "re-renders the new methods" do
+                post :create, params:{ history: FactoryGirl.attributes_for(:invalid_history)}
+                response.should render_template :new
+            end
+        end
     end
-
-    context "with invalid params" do
-      it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {history: invalid_attributes}, session: valid_session
-        expect(response).to be_success
-      end
+#Testing PUT methods
+    describe 'PUT update' do
+        before :each do
+            admin_log_in
+            @history = FactoryGirl.create(:history)
+        end
+        
+        context "valid attributes" do
+            it "located the requested @history" do
+                put :update, params: { id: @history, 
+                    history: FactoryGirl.attributes_for(:history)}
+                assigns(:history).should eq(@history)
+            end
+            
+            it "changes @history's attributes" do
+                put :update, params: { id: @history,
+                    history: FactoryGirl.attributes_for(:history, checkOutTime: "2018-04-13 21:21:25")}
+                @history.reload
+                @history.checkOutTime.should eq("2018-04-13 21:21:25.000000000 -0500")
+            end
+            
+            it "redirects to the updated history" do
+                put :update, params: {id: @history,
+                    history: FactoryGirl.attributes_for(:history)}
+                    response.should redirect_to @history
+            end
+        end
+        
+        context "invalid attributes" do
+            it "locates the requested @history" do
+                put :update, params: {id: @history,
+                    history: FactoryGirl.attributes_for(:invalid_history)}
+                assigns(:history).should eq(@history)
+            end
+            
+            it "does not change @history's attributes" do
+                put :update, params: {id: @history,
+                    history: FactoryGirl.attributes_for(:invalid_history, checkOutTime: "2018-04-13 21:21:25")}
+                @history.reload
+                @history.checkOutTime.should eq("2018-04-13 21:21:25.000000000 -0500")
+            end
+            
+            it "re-renders the edit method" do
+                put :update, params: {id: @history,
+                    history: FactoryGirl.attributes_for(:invalid_history)}
+                    response.should render_template :edit
+            end
+        end
     end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested history" do
-        history = History.create! valid_attributes
-        put :update, params: {id: history.to_param, history: new_attributes}, session: valid_session
-        history.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the history" do
-        history = History.create! valid_attributes
-        put :update, params: {id: history.to_param, history: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(history)
-      end
+#Testing DELETE methods
+    describe 'DELETE destroy' do
+        before :each do
+            @history = FactoryGirl.create(:history)
+        end
+        
+        it "deletes the contact" do
+            expect{
+                delete :destroy, params:{ id: @history}
+            }.to change(History,:count).by(-1)
+        end
+        
+        it "redirects to contacts#index" do
+            delete :destroy, params: { id: @history}
+            response.should redirect_to histories_url
+        end
     end
-
-    context "with invalid params" do
-      it "returns a success response (i.e. to display the 'edit' template)" do
-        history = History.create! valid_attributes
-        put :update, params: {id: history.to_param, history: invalid_attributes}, session: valid_session
-        expect(response).to be_success
-      end
-    end
-  end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested history" do
-      history = History.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: history.to_param}, session: valid_session
-      }.to change(History, :count).by(-1)
-    end
-
-    it "redirects to the histories list" do
-      history = History.create! valid_attributes
-      delete :destroy, params: {id: history.to_param}, session: valid_session
-      expect(response).to redirect_to(histories_url)
-    end
-  end
-
 end

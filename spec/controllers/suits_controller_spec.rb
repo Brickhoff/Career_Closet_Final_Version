@@ -3,6 +3,9 @@ require 'rails_helper'
 describe SuitsController do
 #Tesing GET methods    
     describe "GET #index" do
+        before :each do
+            admin_log_in
+        end
         it "populates an array of suits" do
             suit = FactoryGirl.create(:suit)
             get :index
@@ -17,12 +20,12 @@ describe SuitsController do
     describe "GET #show" do
         it "assigns the requested suit to @suit" do
             suit = FactoryGirl.create(:suit)
-            get :show, id: suit
+            get :show, params: { id: suit.id}
             assigns(:suit).should eq(suit)
         end
         
         it "renders the :show template" do
-            get :show, id: FactoryGirl.create(:suit)
+            get :show, params: {id: FactoryGirl.create(:suit)}
             expect(response).to render_template :show
         end
     end
@@ -42,11 +45,11 @@ describe SuitsController do
     describe "GET#edit" do
         it "assigns the requested suit to @suit" do
             suit = FactoryGirl.create(:suit)
-            get :show, id: suit
+            get :show, params: { id: suit.id}
             assigns(:suit).should eq(suit)
         end
         it "renders the :edit template" do
-            get :edit, id: FactoryGirl.create(:suit)
+            get :edit, params: { id: FactoryGirl.create(:suit)}
             expect(response).to render_template :edit
         end
     end
@@ -56,22 +59,22 @@ describe SuitsController do
         context "with valid attributes" do
             it "creates a new suit" do
                 expect{
-                    post :create, suit: FactoryGirl.attributes_for(:suit)
+                    post :create, params:{ suit: FactoryGirl.attributes_for(:suit)}
                 }.to change(Suit,:count).by(1)
             end
             it "redirects to the new suit" do
-                post :create, suit: FactoryGirl.attributes_for(:suit)
+                post :create, params:{ suit: FactoryGirl.attributes_for(:suit)}
                 response.should redirect_to Suit.last
             end
         end
         context "with invalid attributes" do
             it "does not save the new suit" do
                 expect{
-                    post :create, suit: FactoryGirl.attributes_for(:invalid_suit)
+                    post :create, params:{ suit: FactoryGirl.attributes_for(:invalid_suit)}
                 }.to_not change(Suit,:count)
             end
             it "re-renders the new methods" do
-                post :create, suit: FactoryGirl.attributes_for(:invalid_suit)
+                post :create, params:{ suit: FactoryGirl.attributes_for(:invalid_suit)}
                 response.should render_template :new
             end
         end
@@ -79,47 +82,48 @@ describe SuitsController do
 #Testing PUT methods
     describe 'PUT update' do
         before :each do
-            @suit = FactoryGirl.create(:suit, gender: "F")
+            admin_log_in
+            @suit = FactoryGirl.create(:suit, appid: "123")
         end
         
         context "valid attributes" do
             it "located the requested @suit" do
-                put :update, id: @suit, 
-                    suit: FactoryGirl.attributes_for(:suit)
+                put :update, params: { id: @suit, 
+                    suit: FactoryGirl.attributes_for(:suit)}
                 assigns(:suit).should eq(@suit)
             end
             
             it "changes @suit's attributes" do
-                put :update, id: @suit,
-                    suit: FactoryGirl.attributes_for(:suit, gender: "F")
+                put :update, params: { id: @suit,
+                    suit: FactoryGirl.attributes_for(:suit, appid: "123")}
                 @suit.reload
-                @suit.gender.should eq("F")
+                @suit.appid.should eq("123")
             end
             
             it "redirects to the updated suit" do
-                put :update, id: @suit,
-                    suit: FactoryGirl.attributes_for(:suit)
+                put :update, params: {id: @suit,
+                    suit: FactoryGirl.attributes_for(:suit)}
                     response.should redirect_to @suit
             end
         end
         
         context "invalid attributes" do
             it "locates the requested @suit" do
-                put :update, id: @suit,
-                    suit: FactoryGirl.attributes_for(:invalid_suit)
+                put :update, params: {id: @suit,
+                    suit: FactoryGirl.attributes_for(:invalid_suit)}
                 assigns(:suit).should eq(@suit)
             end
             
             it "does not change @suit's attributes" do
-                put :update, id: @suit,
-                    suit: FactoryGirl.attributes_for(:suit, gender: "F")
+                put :update, params: {id: @suit,
+                    suit: FactoryGirl.attributes_for(:suit, appid: "123")}
                 @suit.reload
-                @suit.gender.should eq("F")
+                @suit.appid.should eq("123")
             end
             
             it "re-renders the edit method" do
-                put :update, id: @suit,
-                    suit: FactoryGirl.attributes_for(:invalid_suit)
+                put :update, params: {id: @suit,
+                    suit: FactoryGirl.attributes_for(:invalid_suit)}
                     response.should render_template :edit
             end
         end
@@ -132,13 +136,30 @@ describe SuitsController do
         
         it "deletes the contact" do
             expect{
-                delete :destroy, id: @suit
+                delete :destroy, params:{ id: @suit}
             }.to change(Suit,:count).by(-1)
         end
         
         it "redirects to contacts#index" do
-            delete :destroy, id: @suit
+            delete :destroy, params: { id: @suit}
+            response.should redirect_to suits_url
+        end
+    end
+    
+    describe 'DELETE destroy(sad path)' do
+        before :each do
+            @suit = FactoryGirl.create(:suit, status:"Checkout")
+        end
+        it " cannot deletes the contact" do
+            expect{
+                delete :destroy, params:{ id: @suit}
+            }.to change(Suit,:count).by(0)
+        end
+        it "redirects to contacts#index" do
+            delete :destroy, params: { id: @suit}
             response.should redirect_to suits_url
         end
     end
 end
+
+
