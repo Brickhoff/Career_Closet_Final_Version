@@ -73,12 +73,10 @@ Scenario: Show a rental record
   And I should see "Cathy"
   And I follow "Edit"
   And I should see "123456789"
-  And I follow "Edit"
-  And I should see "123456789"
   
 Scenario: Delete a rental record
   When I am on the renters page
-  Then I follow "2018-04-08 19:00:00 -0500"
+  Then I follow "123456789"
   And I follow "Delete"
   And I am on the renters page
   
