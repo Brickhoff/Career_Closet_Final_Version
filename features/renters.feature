@@ -19,6 +19,11 @@ Background: users in database
   | checkOutTime              | expectReturnTime            | returnTime  | status  |  user_id   | suit_id |
   | 2018-04-08 19:00:00 -0500 | 2018-04-18 19:00:00 -0500   |             | Checkou |      1     |    1    |
 
+  Given the following histories exist:
+  |  suit_id   |  user_id      |     checkOutTime        |   expectReturnTime         |     returnTime          |
+  |      1     |   1           | 2018-04-17 21:58:59 UTC |   2018-04-20 21:58:59 UTC  | 2018-04-20 21:58:59 UTC |               
+  |      2     |   2           | 2018-04-3 21:58:59 UTC  |   2018-04-13 21:58:59 UTC  | 2018-04-17 21:58:59 UTC | 
+
 Scenario: create a rental record (sad path that suit is not available)
   When I am on the renters page
   Then I should see "Suit App. ID:"
@@ -73,10 +78,19 @@ Scenario: Show a rental record
   And I should see "Cathy"
   And I follow "Edit"
   And I should see "123456789"
+  And I press "Edit"
+
+Scenario: Remind customer to return a suit
+  When I am on the renters page
+  Then I follow "123456789"
+  And I should see "Cathy"
+  And I press "Remind cutomer to return the suit."
+  And I am on the renters page
   
 Scenario: Delete a rental record
   When I am on the renters page
   Then I follow "123456789"
+  And I should see "Cathy"
+  And I should see "Delete"
   And I follow "Delete"
   And I am on the renters page
-  
