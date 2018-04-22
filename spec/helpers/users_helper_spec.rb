@@ -12,16 +12,16 @@ include SpecTestHelper
 #     end
 #   end
 # end
-RSpec.describe RentersHelper, type: :helper do
-  describe "display renters" do
+RSpec.describe UsersHelper, type: :helper do
+  describe "display uers" do
       before :each do
           admin_log_in
       end
       it "with sorting method" do
-          @renter = FactoryGirl.create(:renter)
-          visit renters_path
-          current_path.should eq(renters_path)
-          click_link "Status"
+          @user = FactoryGirl.create(:user)
+          visit users_path
+          current_path.should eq(users_path)
+          click_link "First Name"
       end
   end
 end

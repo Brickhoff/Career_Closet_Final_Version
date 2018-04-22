@@ -9,7 +9,10 @@ Background: suits have been added to database
 
 
 Scenario: admin signup without password
-  When I am on adminsignup page
+  When I am on the home page
+  And I follow "Admin"
+  And I follow "Sign up"
+  Then I should be on the adminsignup page 
   And I fill in "Name" with "Henry"
   And I fill in "Email" with "henry@tamu.edu"
   And I press "Create my admin account"

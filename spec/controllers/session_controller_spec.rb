@@ -11,10 +11,11 @@ describe SessionController, type: :controller do
    
     context "session create test" do
        before :each do
-         FactoryGirl.create(:user, id: 1, email: "henry@tamu.edu", password: "123456", remember_token: '1' )
+         @user = FactoryGirl.create(:user)
+         post :create, params:{session: {email: @user.email, password: @user.password}}
       end
       it "redirects to appointment page" do
-        puts "henry@tamu.edu" + " " + "123456"
+        puts @user.email + " " + @user.password
         expect(response).to redirect_to appointments_path
       end
     end
@@ -22,13 +23,24 @@ describe SessionController, type: :controller do
     context "session create test" do
       before :each do
           @user = FactoryGirl.create(:user)
-          post :create, { session: { email: " ", password: " " }}
+          post :create, params: { session: { email: " ", password: " " }}
       end
       it "redirects to session page" do
         puts @user.email + " " + " "
         expect(response).to render_template('session/new')
       end
     end
+  end
+  
+#Testing DELETE methods
+  describe 'DELETE destroy' do
+      before :each do
+           user_log_in
+      end
+      it "redirects to contacts#index" do
+          delete :destroy, params: { user_id: 1}
+          response.should redirect_to login_path
+      end
   end
   
 end

@@ -11,7 +11,39 @@ Background: users have been added to database
   | Henry         |     Lin     | 123456790 |   9796823432  | henry@tamu.edu |    true        |    false        |   123456  |   123456              |
 
 
-Scenario: user log in
+Scenario: user forget password(invalid emial)
+  When I am on the login page
+  And I follow "forgot password"
+  Then I should see "Forgot password"
+  And I fill in "Email" with "bk@tamu.edu"
+  And I press "Submit"
+  Then I should see "Email address not foound"
+  
+Scenario: user forget password(valid email)
+  When I am on the login page
+  And I follow "forgot password"
+  Then I should see "Forgot password"
+  And I fill in "Email" with "cathy@tamu.edu"
+  And I press "Submit"
+  Then I should see "Email sent with password reset instructions"
+
+Scenario: user change password
+  When I am on the login page
+  And I follow "forgot password"
+  Then I should see "Forgot password"
+  And I fill in "Email" with "cathy@tamu.edu"
+  And I press "Submit"
+  Then "cathy@tamu.edu" should receive an email
+  When I open the email
+  Then I should see "Password reset" in the email body
+  When I follow "Reset password" in the email
+  Then I should see "Reset password"
+  And I fill in "user_password" with "123qwe"
+  And I fill in "user_password_confirmation" with "123qwe"
+  And I press "Update password"
+  Then I should see "Password has been reset."
+
+Scenario: user log in(with email confirmed)
   When I am on the login page
   And I fill in "Email" with "cathy@tamu.edu"
   And I fill in "Password" with "123456"
@@ -20,6 +52,13 @@ Scenario: user log in
   And I follow "Log out"
   Then I should see "Log in"
   
+Scenario: user log in (without email confirmed)
+  When I am on the login page
+  And I fill in "Email" with "henry@tamu.edu"
+  And I fill in "Password" with "123456"
+  And I press "Log in"
+  And I should see "Please activate your account."  
+
 Scenario: user log in (sad path)
   When I am on the login page
   And I fill in "Email" with "cathy@tamu.edu"
@@ -43,7 +82,14 @@ Scenario: new user sign up
   Then I should see "Welcome to Career Closet Xuezhang"
   When I open the email with subject "Please confirm your registration."
   When I click the first link in the email
-  And I follow "Setting"
+  Then I should see "Welcome to TAMU Closet! Your account has now been confirmed."
+  And I follow "Log in"
+  Then I am on the login page
+  And I fill in "Email" with "brickhoff@tamu.edu"
+  And I fill in "Password" with "123456789"
+  And I press "Log in"
+  Then I should see "Listing Appointments"
+  And I follow "Settings"
   And I should see "Update your profile"
   And I fill in "Phone" with "1234567890"
   And I fill in "Password" with "123456789"

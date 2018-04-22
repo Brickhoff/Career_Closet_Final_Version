@@ -5,13 +5,8 @@ class HistoriesController < ApplicationController
   # GET /histories
   # GET /histories.json
   def index
-    if admin_logged_in?
       @search_history = History.ransack(params[:q])
       @histories = @search_history.result.includes(:user, :suit).paginate(page: params[:page], per_page:30)
-    else
-      @search_history = current_user.histories.ransack(params[:q])
-      @histories = @search_history.result().paginate(page: params[:page], per_page: 30)
-    end
   end
 
   # GET /histories/1

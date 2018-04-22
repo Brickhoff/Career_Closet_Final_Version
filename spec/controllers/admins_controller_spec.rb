@@ -14,6 +14,39 @@ describe AdminsController do
             expect(response).to render_template :new
         end
     end
+    
+    describe "GET #show" do
+        before :each do
+            admin_log_in
+        end
+        it "assigns the requested admin to @admin" do
+            admin = FactoryGirl.create(:admin)
+            get :show, params: { id: admin.id}
+            assigns(:admin).should eq(admin)
+        end
+        
+        it "renders the :show template" do
+            admin = FactoryGirl.create(:admin)
+            get :show, params: { id: admin.id}
+            expect(response).to render_template :show
+        end
+    end
+    
+    describe "GET#edit" do
+        before :each do
+            admin_log_in
+        end
+        it "assigns the requested admin to @admin" do
+            admin = FactoryGirl.create(:admin)
+            get :show, params: { id: admin.id}
+            assigns(:admin).should eq(admin)
+        end
+        it "renders the :edit template" do
+            admin = FactoryGirl.create(:admin)
+            get :edit, params: { id: admin.id}
+            expect(response).to render_template :edit
+        end
+    end
 
 #Testing POST methods
     describe "POST#create" do
@@ -41,6 +74,4 @@ describe AdminsController do
             end
         end
     end
-
-
 end

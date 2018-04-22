@@ -23,7 +23,14 @@ Given /^the following suits exist:$/ do |suits_table|
 end
 
 Given /^the following appointments exist:$/ do |appointments_table|
-    appointments_table.hashes.each do |appointments|
-        Appointment.create appointments
+    appointments_table.hashes.each do |appointment|
+        Appointment.create appointment
+    end
+end
+
+
+Given /^the following histories exist:$/ do |histories_table|
+    histories_table.hashes.each do |histories|
+        History.create histories
     end
 end

@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'spec_helper'
 
+
 describe UsersController do
 #Tesing GET methods    
     describe "GET #index" do
-        
         before :each do
             admin_log_in
         end

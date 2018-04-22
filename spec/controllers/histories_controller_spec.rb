@@ -24,11 +24,10 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe HistoriesController, type: :controller do
-  before :each do
-    admin_log_in
-  end
   describe "GET #index" do
-
+    before :each do
+        admin_log_in
+    end
     it "populates an array of histories" do
       history = FactoryGirl.create(:history)
       get :index
@@ -41,6 +40,9 @@ RSpec.describe HistoriesController, type: :controller do
   end
   
   describe "GET #show" do
+    before :each do
+        admin_log_in
+    end
       it "assigns the requested history to @histoy" do
           history = FactoryGirl.create(:history)
           get :show, params: { id: history.id}
@@ -54,6 +56,9 @@ RSpec.describe HistoriesController, type: :controller do
   end
   
   describe "GET #new" do
+        before :each do
+            admin_log_in
+        end
       it "assigns a new history to @history" do
           get :new
           assigns(:history).should be_a_new(History)
@@ -66,6 +71,9 @@ RSpec.describe HistoriesController, type: :controller do
   end
   
   describe "GET#edit" do
+    before :each do
+        admin_log_in
+    end
       it "assigns the requested history to @history" do
           history = FactoryGirl.create(:history)
           get :show, params: { id: history.id}
@@ -78,6 +86,9 @@ RSpec.describe HistoriesController, type: :controller do
   end
 #Testing POST methods
     describe "POST#create" do
+        before :each do
+            admin_log_in
+        end
         context "with valid attributes" do
             it "creates a new history" do
                 expect{
@@ -153,6 +164,7 @@ RSpec.describe HistoriesController, type: :controller do
 #Testing DELETE methods
     describe 'DELETE destroy' do
         before :each do
+            admin_log_in
             @history = FactoryGirl.create(:history)
         end
         

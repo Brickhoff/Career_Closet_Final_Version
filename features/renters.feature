@@ -37,7 +37,7 @@ Scenario: create a rental record (sad path customer holds a suit)
   And I select "123456789" from "UIN of costumer:"
   And I select "JM143" from "App. ID"
   Then I press "Make a rent"
-  And I should see "This customer has a suit in hold."
+  And I should see "Suit is checked out."
   
 Scenario: create a rental record (sad path Please select a customer.)
   When I am on the renters page
@@ -68,13 +68,13 @@ Scenario: create a rental record
   
 Scenario: Show a rental record
   When I am on the renters page
-  Then I follow "2018-04-08 19:00:00 -0500"
+  Then I follow "123456789"
   And I should see "Customer name:"
   And I should see "Cathy"
   And I follow "Edit"
   And I should see "123456789"
-  And I press "Edit"
-  And I should see "cathy@tamu.edu"
+  And I follow "Edit"
+  And I should see "123456789"
   
 Scenario: Delete a rental record
   When I am on the renters page

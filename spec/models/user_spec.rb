@@ -3,6 +3,25 @@ require 'rails_helper'
 RSpec.describe User, :type => :model do
     subject {described_class.new(first_name: "Henry", last_name: "Lin" , uin:"123456789", email:"hn@tamu.edu",
     phone: "9876543210", password: "123456", password_confirmation: "123456")}
+    describe "#send_passward_reset_email" do
+        let(:user) {FactoryGirl.create(:user)}
+        it "generates a unique password_reset_token each time" do
+            user.create_reset_digest
+            last_token = user.reset_token
+            user.create_reset_digest
+            user.reset_token.should_not eq(last_token)
+        end
+        
+        it "saves the time the password reset was sent" do
+            user.create_reset_digest
+            user.reload.reset_sent_at.should be_present
+        end
+        
+        it "delivers email to user" do
+            send_passward_reset_email
+            last_email.to.should include(user.email)
+        end
+    end
     describe "Validations" do
         it "is valid with valid attributes" do
             expect(subject).to be_valid

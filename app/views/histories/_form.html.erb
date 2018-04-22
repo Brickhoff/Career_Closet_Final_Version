@@ -12,7 +12,7 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :suit_id, "App. ID" %>
+    <%= form.label :suit_id, "AppID" %>
     <%= form.collection_select :suit_id, Suit.all, :id, lambda { |s| "#{s.appid}"}, {:prompt => "Please select a suit"} %>
   </div>
 
