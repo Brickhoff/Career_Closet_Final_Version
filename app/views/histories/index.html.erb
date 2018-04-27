@@ -4,9 +4,9 @@
 
 <%= search_form_for @search_history do |f| %>
     <%= f.label :suit_appid_cont, "Suit App. ID:" %>
-    <%= f.collection_select :suit_appid_cont, Suit.select("distinct appid"), :appid, :appid, {:include_blank => "Please select a suit."} %>
+    <%= f.search_field :suit_appid_cont %>
     <%= f.label :user_uin_cont, "Customer UIN:" %>
-    <%= f.collection_select :user_uin_cont, User.select("distinct uin"), :uin, :uin, {:include_blank => "Please select a Customer UIN."} %>
+    <%= f.search_field :user_uin_cont %>
     <%= f.submit "Search" %>
 <% end %>
 <br>

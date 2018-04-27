@@ -6,9 +6,14 @@ class AdminsessionController < ApplicationController
     admin = Admin.find_by(email: params[:session][:email])
    
     if admin && admin.authenticate(params[:session][:password])
-      admin_log_in admin
-      admin_remember admin
-      redirect_to suits_path
+       if admin.email_confirmed
+          admin_log_in admin
+          params[:session][:remember_me] == '1' ? admin_remember(admin) : admin_forget(admin)
+          redirect_to suits_path, notice: "Logged in!"
+        else
+          flash[:notice] = "Please activate your account."
+          redirect_to root_path
+        end
     else
       flash[:error] = "Invalid combination of email and password."
       render 'new'

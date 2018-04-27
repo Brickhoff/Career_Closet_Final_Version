@@ -1,8 +1,5 @@
 module UsersHelper
-    def user_fields
-        [:first_name, :last_name, :uin, :phone, :email]
-    end
-    
+
     def action
         action_name == 'advance_search' ? :post : :get
     end

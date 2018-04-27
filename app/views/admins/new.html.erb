@@ -18,6 +18,9 @@
 
       <%= f.label :password_confirmation, "Password Confirmation" %>
       <%= f.password_field :password_confirmation, class: 'form-control'  %>
+      
+      <%= f.label :code %>
+      <%= f.text_field :code, class: 'form-control'  %>
 
       <%= f.submit "Create my admin account", class: "btn btn-primary" %>
     <% end %>

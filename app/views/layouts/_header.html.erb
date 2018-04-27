@@ -25,6 +25,9 @@
               Management <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
+              <% if is_super_admin? %>
+                <li><%= link_to "Administrators", admins_path %></li>
+              <% end %>
               <li><%= link_to "Customers", users_path %></li>
               <li><%= link_to "Suits", suits_path %></li>
               <li><%= link_to "Appointments", appointments_path %></li>

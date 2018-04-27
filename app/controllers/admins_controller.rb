@@ -1,20 +1,40 @@
 class AdminsController < ApplicationController
+  
+  before_action :logged_in_as_admin, only: [:show, :edit, :update]
+  before_action :logged_in_as_superadmin, only:[:index, :destroy]
+  
+  
   def new
     @admin = Admin.new
   end
   
   def index
-    @admins = Admin.all
+    @q_admin = Admin.ransack(params[:q])
+    @admins = @q_admin.result().paginate(page: params[:page], :per_page => 10) || []
   end
   
   def create
     @admin = Admin.new(admin_params)
     if @admin.save
-      admin_log_in @admin
+      UserMailer.admin_registration_confirmation(@admin).deliver
+      #admin_log_in @admin
       flash[:success] = "Welcome to Career Closet Admin Interface! #{@admin.name}"
-      redirect_to suits_path
+      redirect_to root_path
     else
+      flash[:error] = "Please confirm your registration."
       render 'new'
+    end
+  end
+  
+  def confirm_email
+    @admin = Admin.find_by_confirm_token(params[:id])
+    if @admin
+      @admin.email_activate
+      flash[:success] = "Welcome to TAMU Closet! Your admin account has now been confirmed."
+      redirect_to root_path
+    else
+      flash[:error] = "Admin does not exist."
+      redirect_to signup_path
     end
   end
   
@@ -35,9 +55,21 @@ class AdminsController < ApplicationController
       @admin = Admin.find(params[:id])
   end
   
+  def destroy
+    @admin = Admin.find(params[:id])
+    if !@admin.superadmin?
+      @admin.destroy
+      flash[:notice] = "The admin is delete."
+    else
+      flash[:notice] = "You can not delete super admin account."
+    end
+    redirect_to admins_path
+  end
+  
   private
+  
   def admin_params
-      params.require(:admin).permit(:name, :email, :password, :password_confirmation)
+      params.require(:admin).permit(:name, :email, :password, :password_confirmation, :code)
   end
   
 end

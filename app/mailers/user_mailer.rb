@@ -6,6 +6,11 @@ class UserMailer < ApplicationMailer
         mail(:to => "#{user.first_name} <#{user.email}>", :subject => "Please confirm your registration.")
     end
     
+    def admin_registration_confirmation(admin)
+        @admin = admin
+        mail(:to => "#{admin.name} <#{admin.email}>", :subject => "Please confirm your registration (Admin).")
+    end
+    
     def suit_rental(user,suit,renter)
         @user = user
         @suit = suit
@@ -47,6 +52,11 @@ class UserMailer < ApplicationMailer
     def password_reset(user)
         @user = user
         mail(:to => "#{user.first_name} <#{user.email}>", :subject =>"Password reset")
+    end
+    
+    def admin_password_reset(admin)
+        @admin = admin
+        mail(:to => "#{admin.name} <#{admin.email}>", :subject =>"Password reset (Admin.)")
     end
     
 end

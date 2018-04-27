@@ -1,0 +1,24 @@
+<h1>All Administrator</h1>
+<div>
+<%= search_form_for @q_admin do |f| %>
+  <%= f.label :name, "Administrator Name:" %>
+  <%= f.search_field :name %>
+  <%= f.submit %>
+<% end %>
+</div>
+
+
+
+<div>
+<%= will_paginate %>
+<%= content_tag :table, class: 'table' do %>
+   <%= content_tag :thead, display_admin_sorted_column_headers(@q_admin), nil, false %>
+   <%= content_tag :tbody, display_admin_sorted_search_results(@admins), nil, false %>
+<% end %>
+<%= will_paginate %>
+</div>
+
+<p>
+    <%= link_to "Back to Administrator List", admins_path %>
+</p>
+

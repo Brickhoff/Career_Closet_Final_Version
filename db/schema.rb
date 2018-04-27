@@ -15,8 +15,14 @@ ActiveRecord::Schema.define(version: 20180413212125) do
   create_table "admins", force: :cascade do |t|
     t.string "name"
     t.string "email"
+    t.string "code"
+    t.boolean "superadmin", default: false
+    t.boolean "email_confirmed", default: false
     t.string "password_digest"
     t.string "remember_digest"
+    t.string "confirm_token"
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -6,7 +6,7 @@
 <% if current_admin %>
    <%= search_form_for @search_appointment do |f| %>
        <%= f.label :user_uin_cont, "Customer UIN:" %>
-       <%= f.collection_select :user_uin_cont, User.select("distinct uin"), :uin, :uin, {:include_blank => "Please select a Customer UIN."} %>
+       <%= f.search_field :user_uin_cont %>
        <%= f.submit "Search" %>
    <% end %>
    <br>

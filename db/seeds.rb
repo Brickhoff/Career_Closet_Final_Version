@@ -22,7 +22,11 @@ User.create!(first_name:  "Henry",
 Admin.create!(name:  "Henry",
              email: "henrysurface@gmail.com",
              password:              "123456",
-             password_confirmation: "123456")
+             password_confirmation: "123456",
+             code: "jzNvvyqZ",
+             superadmin: true,
+             email_confirmed: true
+             )
 
 
 100.times do |n|

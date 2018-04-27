@@ -1,0 +1,4 @@
+Hi <%= @admin.name %>
+
+Thanks for your registration to become an Administrator! To confirm your registration, please click the link below:
+<%= confirm_email_admin_url(@admin.confirm_token) %>
