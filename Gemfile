@@ -53,6 +53,7 @@ gem 'sidekiq'
 gem 'resque'
 # A light-weight job scheduling system built on top of resque
 gem 'resque-scheduler'
+gem 'jquery-ui-rails'
 
 
 group :development, :test do
