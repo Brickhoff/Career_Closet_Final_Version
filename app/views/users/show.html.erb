@@ -1,24 +1,58 @@
-<h1>Welcome, <%= @user.full_name %> Profile</h1>
-
-<div class= "row">
-    <aside class = "col-md-4">
-        <section>
-            <%= label_tag "Customer Name: " %>
-            <%= @user.full_name %><br>
-            <%= label_tag "Customer UIN: " %>
-            <%= @user.uin %><br>
-            <%= label_tag "Email: " %>
-            <%= @user.email %><br>
-            <%= label_tag "Phone: " %>
-            <%= @user.phone %><br>
-        </section>
-    </aside>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12 lead" align = "center"><%= @user.full_name %>'s Profile<hr></div>
+          </div>
+          <div class="row">
+			<div class="col-md-4 text-center">
+			    <%= gravatar_for @user, size: 150 %>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4 class="only-bottom-margin" align = "center"> Email: <%= @user.email %></h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <h4 class="only-bottom-margin" align = "center"> UIN: <%= @user.uin %></h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <h4 class="only-bottom-margin" align = "center"> Phone: <%= @user.phone %></h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <% if @user.available %>
+                  <h4 class="only-bottom-margin" align = "center"> Status: Available </h4>
+                  <% else %>
+                  <h4 class="only-bottom-margin" align = "center"> Status: Borrowing</h4>
+                  <% end %>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-12">
+                <hr>
+                <div class = "col-md-4">
+                    <%= link_to "Back to Closet", appointments_path %>
+                </div>
+                <div class="col-md-8">
+                    <%= link_to "Edit",edit_user_path(@user), class:"btn btn-md btn-primary pull-right"%>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<p>
-    <%= link_to "Edit",edit_user_path(@user) %></td>
-</p>
-
-<p>
-    <%= link_to "Back to Closet", appointments_path %>
-</p>

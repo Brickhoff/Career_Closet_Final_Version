@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20180413212125) do
 
   create_table "appointments", force: :cascade do |t|
     t.datetime "time"
+    t.string "slot"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

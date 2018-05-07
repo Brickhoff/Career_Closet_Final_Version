@@ -148,3 +148,18 @@ input {
   width: auto;
   margin-left: 0;
 }
+
+.navbar-default .navbar-brand {
+    color: #600024;
+}
+.navbar-brand {
+    float: left;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    height: 50px;
+    font-family: "Georgia","serif";
+    text-transform: uppercase;
+    font-weight: bold;
+    font-style: normal;
+}

@@ -9,9 +9,10 @@ class SessionController < ApplicationController
       if user.email_confirmed
         user_log_in user
         params[:session][:remember_me] == '1' ? user_remember(user) : user_forget(user)
-        redirect_to appointments_path, notice: "Logged in!"
+        flash[:success] = "Welcome to Career Closet."
+        redirect_to appointments_path
       else
-        flash[:notice] = "Please activate your account."
+        flash[:error] = "Please activate your account."
         redirect_to root_path
       end
     else
