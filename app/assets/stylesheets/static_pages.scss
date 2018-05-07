@@ -1,8 +1,8 @@
-// Place all the styles related to the StaticPages controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
 @import "bootstrap-sprockets";
 @import "bootstrap";
+.navbar-default .navbar-brand {
+    color: #600024;
+}
 #jumbotron1{
     background-image: url('jum.jpeg');
     background-size: cover;
@@ -15,7 +15,7 @@
     margin-top: 10px;
 }
 #jumbotron2{
-    background-image: url('helppage.jpg');
+    background-image: url('helppage.jpeg');
     background-size: cover;
     height: 550px;
     padding-right: 60px;
