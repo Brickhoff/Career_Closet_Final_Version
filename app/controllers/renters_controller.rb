@@ -6,7 +6,7 @@ class RentersController < ApplicationController
   
   def index
     @q_renters = Renter.ransack(params[:q])
-    @renters = @q_renters.result.includes(:user, :suit).paginate(page: params[:page], :per_page => 30) || []
+    @renters = @q_renters.result.includes(:user, :suit).paginate(page: params[:page], :per_page => 10) || []
   end
 
   def show
@@ -30,12 +30,12 @@ class RentersController < ApplicationController
     @user_id = renter_params[:user_id]
     @suit_id = renter_params[:suit_id]
     if @user_id.blank?
-      flash[:notice] = "Please select a customer."
+      flash[:danger] = "Please select a customer."
       redirect_to new_renter_path
       return
     end
     if Suit.find(@suit_id).status != "Available"
-      flash[:notice] = "The suit is not available."
+      flash[:danger] = "The suit is not available."
       redirect_to new_renter_path
       return
     end
@@ -56,7 +56,7 @@ class RentersController < ApplicationController
         redirect_to new_renter_path(:suit_id => @suit_id)
       end
     else
-      flash[:notice] = "This customer has two suit in hold."
+      flash[:danger] = "This customer has two suit in hold."
       redirect_to renters_path
     end
   end
@@ -75,7 +75,7 @@ class RentersController < ApplicationController
     @renter = Renter.find(params[:id])
     if @renter.update(renter_params)
       update_book_history(@renter.user_id, @renter.suit_id,@renter.checkOutTime, @renter.expectReturnTime)
-      flash[:notice] = "The rental information is update."
+      flash[:success] = "The rental information is update."
       redirect_to renter_path(@renter)
     else
       render :edit
@@ -96,17 +96,15 @@ class RentersController < ApplicationController
       User.find(@renter.user_id).update_attribute(:suitCount, @user.suitCount - 1)
       Suit.find(@renter.suit_id).update_attribute(:status, "Available")
       Renter.find(@renter.id).update_attribute(:returnTime, Time.now)
-      
-      @user = User.find(@renter.user_id)
       @suit = Suit.find(@renter.suit_id)
       @renters = Renter.find(@renter.id)
       complete_book_history(@renter.user_id, @renter.suit_id)
       UserMailer.suit_return(@user,@suit,@renters).deliver
       @renter.destroy
-      flash[:notice] = "Suit is returned to Closet!"
+      flash[:success] = "Suit is returned to Closet!"
       redirect_to renters_path
     else
-      flash[:notice] = "Please Check your customer UIN ans suit ID."
+      flash[:danger] = "Please Check your customer UIN ans suit ID."
       redirect_to renter_path(@renter)
     end
   end
@@ -129,6 +127,6 @@ class RentersController < ApplicationController
   
   private
   def renter_params
-    params.require(:renter).permit(:checkOutTime, :expectReturnTime, :returnTime, :status, :user_id, :suit_id)
+    params.require(:renter).permit(:checkOutTime, :expectReturnTime, :returnTime, :user_id, :suit_id)
   end
 end
