@@ -1,8 +1,8 @@
+
 <%= form_for(@appointment) do |f| %>
   <% if @appointment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
-
       <ul>
       <% @appointment.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -17,15 +17,190 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :time %>
-    <%= f.datetime_select :time %>
+    <%= f.hidden_field :time %>
+    <%= f.hidden_field :slot %>
     <% if current_user %>
       <%= f.hidden_field :user_id, value: current_user.id %>
     <% elsif current_admin %>
       <%= f.hidden_field :user_id, value: @appointment.user_id %>
     <% end %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  
+    <h2 style="text-align:center">Please select your avaliable time</h2>
+<p style="text-align:center">click date and time slots to schedule your appointment.</p>
+  
+
+<div id="datepicker" class ="datepicke_holder"></div>
+
+
+<div id= "timesheet" class= "time_sheet" styles="display: block;">
+    <ul class="moring" id = 'slots'>
+      <li class= "list_heading">Morning</li>
+      <li id= 'btn1' ><a class= 'btnc'>9:00 am</a></li>
+      <li id= 'btn2' ><a class= 'btnc'>9:15 am</a></li>
+      <li id= 'btn3' ><a class= 'btnc'>9:30 am</a></li>
+      <li id= 'btn4' ><a class= 'btnc'>9:45 am</a></li>
+      <li id= 'btn5' ><a class= 'btnc'>10:00 am</a></li>
+      <li id= 'btn6' ><a class= 'btnc'>10:15 am</a></li>
+      <li id= 'btn7' ><a class= 'btnc'>10:30 am</a></li>
+      <li id= 'btn8' ><a class= 'btnc'>10:45 am</a></li>
+      <li id= 'btn9' ><a class= 'btnc'>11:00 am</a></li>
+      <li id= 'btn10'><a class= 'btnc'>11:15 am</a></li>
+      <li id= 'btn11'><a class= 'btnc'>11:30 am</a></li>
+      <li id= 'btn12'><a class= 'btnc'>11:45 am</a></li>
+    </ul>
+    <ul class="afternoon" id = 'slots'>
+      <li class= "list_heading">Afternoon</li>
+      <li id= 'btn13'><a class= 'btnc'>12:00 pm</a></li>
+      <li id= 'btn14'><a class= 'btnc'>12:15 pm</a></li>
+      <li id= 'btn15'><a class= 'btnc'>12:30 pm</a></li>
+      <li id= 'btn16'><a class= 'btnc'>12:45 pm</a></li>
+      <li id= 'btn17'><a class= 'btnc'>1:00 pm</a></li>
+      <li id= 'btn18'><a class= 'btnc'>1:15 pm</a></li>
+      <li id= 'btn19'><a class= 'btnc'>1:30 pm</a></li>
+      <li id= 'btn20'><a class= 'btnc'>1:45 pm</a></li>
+      <li id= 'btn21'><a class= 'btnc'>2:00 pm</a></li>
+      <li id= 'btn22'><a class= 'btnc'>2:15 pm</a></li>
+      <li id= 'btn23'><a class= 'btnc'>2:30 pm</a></li>
+      <li id= 'btn24'><a class= 'btnc'>3:45 pm</a></li>
+    </ul>
+    <ul class="evening" id = 'slots'>
+      <li class= "list_heading">Evening</li>
+      <li id= 'btn25'><a class= 'btnc'>4:00 pm</a></li>
+      <li id= 'btn26'><a class= 'btnc'>4:15 pm</a></li>
+      <li id= 'btn27'><a class= 'btnc'>4:30 pm</a></li>
+      <li id= 'btn29'><a class= 'btnc'>4:45 pm</a></li>
+      <li id= 'btn30'><a class= 'btnc'>5:00 pm</a></li>
+      <li id= 'btn31'><a class= 'btnc'>5:15 pm</a></li>
+      <li id= 'btn32'><a class= 'btnc'>5:30 pm</a></li>
+      <li id= 'btn33'><a class= 'btnc'>5:45 pm</a></li>
+    </ul>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= f.submit "Submit", class: "btn btn-primary"  %>
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    
+    //pathname
+    $( "#datepicker" ).datepicker({
+      showOtherMonths: true,
+      selectOtherMonths: true,
+      dateFormat: "yy-mm-dd",
+      onSelect: function(date) {
+          currentDate =$(this).val();
+          $("#appointment_time").val(currentDate);
+      },
+      beforeShowDay: function(date){ 
+        $(".ui-datepicker").css('font-size', 20) 
+        var day = date.getDay(); 
+        return [day == 1 || day == 4,""];
+        }
+    });
+    
+    $(".btnc").on('click', function(){ 
+      $(this).removeClass("off").addClass("on").parents().siblings().children().removeClass("on").addClass("off");
+      $(this).removeClass("off").addClass("on").parents().parents().siblings().children().children().removeClass("on").addClass("off");
+       slot = $(this).text();
+       $("#appointment_slot").val(slot);
+    });
+    
+    $('body').on('focus', '.class', function(){
+      $(this).datepicker();
+    });
+});
+</script>
 <% end %>
+
+
+
+
+<!-- datepicker part -->
+<html lang="en">
+<body>
+
+
+ 
+<style>
+* {
+    box-sizing: border-box;
+}
+
+.time_sheet {
+    float: right;
+    width: 62%;
+    margin-top: 0;
+    padding-bottom: 5px;
+}
+
+.time_sheet ul.morning {
+    padding-left: 10px;
+}
+.time_sheet ul {
+    float: left;
+    padding: 0 4% 0 0;
+        padding-left: 0px;
+    width: 28%;
+    min-height: 205px;
+}
+
+ul li.list_heading {
+    font-size: 20px;
+    color: #444;
+    font-weight: 700;
+    text-align: center;
+    padding-top: 0;
+}
+
+.time_sheet ul li {
+    font-size: 12px;
+    padding: 5px 0 0;
+    text-align: center;
+    margin-bottom: 0;
+    width: 100%;
+    display: block;
+}
+
+.time_sheet ul li a {
+    color: #1a93d0;
+    font-weight: 600;
+    padding: 5px 0;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    margin: 0;
+    width: 100%;
+    display: block;
+}
+
+.datepicke_holder {
+    width: 35%;
+    height: 420.333px;
+    float: left;
+    margin-top: 0;
+    margin-left: 5px;
+}
+
+
+.time_sheet a.on { 
+    background: yellow; 
+}
+.time_sheet a.off { 
+    background: white; 
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    .columns {
+        width: 100%;
+    }
+}
+</style>
+ 
+</body>
+</html>
