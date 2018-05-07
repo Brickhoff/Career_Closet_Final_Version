@@ -23,11 +23,12 @@ module HistoriesHelper
     def display_history_sorted_search_results_row(object)
             string = content_tag(:td, link_to(Suit.find(object.suit_id).appid, '/histories/' + object.id.to_s))
             string << content_tag(:td, link_to(User.find(object.user_id).uin, '/histories/' + object.id.to_s))
-            string << content_tag(:td, object.checkOutTime)
-            string << content_tag(:td, object.returnTime)
+            string << content_tag(:td, object.checkOutTime.strftime("%Y/%m/%d"))
             if !object.returnTime.nil?
+                string << content_tag(:td, object.returnTime.strftime("%Y/%m/%d"))
                 string << content_tag(:td, (object.returnTime.day - object.checkOutTime.day).to_i)
             else
+                string << content_tag(:td, "")
                 string << content_tag(:td, "")
             end
             string << content_tag(:td, link_to('Edit', edit_history_path(object)) +'|'+link_to('Delete', object, method: :delete, data: { confirm: 'Are you sure?' } ))

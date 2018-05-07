@@ -1,38 +1,7 @@
-<h1>Renters#edite</h1>
-<p>Find me in app/views/renters/edite.html.erb</p>
-<% if @renter.errors.any? %>
-<h2>"The following errors prevented the article from getting created"</h2>
-<ul>
-    <% @renter.errors.full_messages.each do |msg| %>
-    <li><%= msg %></li>
-    <% end %>
-</ul>
-<% end %>
+<h1>Edite a rental record</h1>
 
-<% if @renter.suit_id.blank? %>
-  <% suit_id = params[:suit_id] %>
-<% else %>
-  <% suit_id = @renter.suit_id %>
-<% end %>
+<%= render 'form', renters: @renter %>
 
-<%= form_for @renter do |f| %>
-<p>
-    <%= f.label :suit_id, "App. ID" %>
-    <%= f.collection_select :suit_id, Suit.all, :id, lambda { |s| "#{s.appid}"}, {:prompt => "Please select a suit"} %><br>
-</p>
-<p>
-    <%= f.label :user_id, "UIN of costumer:" %>
-    <%= f.collection_select :user_id, User.all, :id, lambda { |u| "#{u.uin}"}, {:prompt => "Please select Customer UIN"} %><br>
-</p>
-<p>
-    <%= f.label :checkOutTime, "Check out time:" %><br>
-    <%= f.date_select :checkOutTime, id: :renter_checkOutTime %><br>
-</p>
-<p>
-    <%= f.label :expectReturnTime, "Expected return time:" %><br>
-    <%= f.date_select :expectReturnTime, id: :renter_expectReturnTime %><br>
-</p>
-
-<%= f.submit "Edit" %><br>
-
-<% end %>
+<center>
+    <%= link_to 'Back to rental system', renters_path, {:class => "btn btn-default"}%>
+</center>

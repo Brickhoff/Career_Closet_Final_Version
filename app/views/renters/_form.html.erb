@@ -1,0 +1,39 @@
+<% if @renter.errors.any? %>
+<h2>"The following errors prevented the article from getting created"</h2>
+<ul>
+    <% @renter.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+</ul>
+<% end %>
+
+<% if @renter.suit_id.blank? %>
+  <% suit_id = params[:suit_id] %>
+<% else %>
+  <% suit_id = @renter.suit_id %>
+<% end %>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+        <%= form_for @renter do |f| %>
+        <p>
+            <%= f.label :suit_id, "App. ID" %>
+            <%= f.collection_select :suit_id, Suit.all, :id, lambda { |s| "#{s.appid}"}, {:prompt => "Please select a suit"}, class: 'form-control' %><br>
+        </p>
+        <p>
+            <%= f.label :user_id, "UIN of costumer:" %>
+            <%= f.collection_select :user_id, User.all, :id, lambda { |u| "#{u.uin}"}, {:prompt => "Please select Customer UIN"}, class: 'form-control' %><br>
+        </p>
+        <p>
+            <%= f.label :checkOutTime, "Check out time:" %><br>
+            <%= f.date_select :checkOutTime, id: :renter_checkOutTime, class: 'form-control' %><br>
+        </p>
+        <p>
+            <%= f.label :expectReturnTime, "Expected return time:" %><br>
+            <%= f.date_select :expectReturnTime, id: :renter_expectReturnTime, class: 'form-control' %><br>
+        </p>
+        
+            <%= f.submit "Submit", class: "btn btn-primary" %><br>
+        <% end %>
+  </div>
+</div>

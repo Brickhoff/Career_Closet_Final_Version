@@ -1,11 +1,14 @@
 <h1>All Administrator</h1>
-<div>
-<%= search_form_for @q_admin do |f| %>
-  <%= f.label :name, "Administrator Name:" %>
-  <%= f.search_field :name %>
-  <%= f.submit %>
-<% end %>
-</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= search_form_for @q_admin do |f| %>
+      <%= f.label :name, "Administrator Name:" %>
+      <%= f.search_field :name , class: 'form-control' %><br>
+      <%= f.submit "Search", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div><br>
 
 
 
@@ -17,8 +20,3 @@
 <% end %>
 <%= will_paginate %>
 </div>
-
-<p>
-    <%= link_to "Back to Administrator List", admins_path %>
-</p>
-

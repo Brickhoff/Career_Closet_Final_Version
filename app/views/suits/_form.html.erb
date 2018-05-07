@@ -7,29 +7,32 @@
     <% end %>
 </ul>
 <% end %>
-
-<%= form_for @suit do |f| %>
-   <p>
-       <%= f.label :appid, "App. ID" %><br/>
-       <%= f.text_field :appid, class: 'form-control' %>
-   </p>
-   <p>
-       <%= f.label :gender, "Gender" %><br/>
-       <%= f.collection_select :gender, Suit.genders, :first, :first, class: 'form-control' %>
-   </p>
-   <p>
-       <%= f.label :article, "Article" %><br/>
-       <%= f.text_field :article, class: 'form-control' %>
-   </p>
-   <p>
-       <%= f.label :size, "Size" %><br/>
-       <%= f.text_field :size, class: 'form-control' %>
-   </p>
-    <p>
-       <%= f.label :status, "Status" %><br/>
-       <%= f.collection_select :status, Suit.statuses, :first, :first, class: 'form-control' %>
-   </p>
-   <p>
-       <%= f.submit %>
-   </p>
-<% end %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for @suit do |f| %>
+       <p>
+           <%= f.label :appid, "App. ID" %><br/>
+           <%= f.text_field :appid, class: 'form-control' %>
+       </p>
+       <p>
+           <%= f.label :gender, "Gender" %><br/>
+           <%= f.collection_select :gender, Suit.genders, :first, :first, class: 'form-control' %>
+       </p>
+       <p>
+           <%= f.label :article, "Article" %><br/>
+           <%= f.text_field :article, class: 'form-control' %>
+       </p>
+       <p>
+           <%= f.label :size, "Size" %><br/>
+           <%= f.text_field :size, class: 'form-control' %>
+       </p>
+        <p>
+           <%= f.label :status, "Status" %><br/>
+           <%= f.collection_select :status, Suit.statuses, :first, :first, class: 'form-control' %>
+       </p>
+       <p>
+           <%= f.submit "Submit", class: "btn btn-primary" %>
+       </p>
+    <% end %>
+  </div>
+</div>

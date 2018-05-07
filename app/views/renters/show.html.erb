@@ -1,36 +1,37 @@
-<h1>Renters#show</h1>
-<p>Find me in app/views/renters/show.html.erb</p>
-<div class= "row">
-    <aside class = "col-md-4">
-        <section>
-            <%= label_tag "Customer Name: " %>
-            <%= @user.full_name %><br>
-            <%= label_tag "Customer UIN: " %>
-            <%= @user.uin %><br>
-            <%= label_tag "Email: " %>
-            <%= @user.email %><br>
-            <%= label_tag "Phone: " %>
-            <%= @user.phone %><br>
-            <%= label_tag "App. ID:" %>
-            <%= @suit.appid %><br>
-            <%= label_tag "Gender:" %>
-            <%= @suit.gender %><br>
-            <%= label_tag "Article:" %>
-            <%= @suit.article %><br>
-            <%= label_tag "Size:" %>
-            <%= @suit.size %><br>
-            <%= label_tag "Checkout Time:" %>
-            <%= @renter.checkOutTime %><br>
-            <%= label_tag "Expect Return Time:" %>
-            <%= @renter.expectReturnTime %><br>
-            <%= label_tag "status: " %>
-            <%= @renter.status %><br>
-        </section>
-    </aside>
-</div>
+<h1>Showing select Rental</h1>
 
+    <div class= "row">
+        <aside class = "col-md-4">
+            <section>
+                <%= label_tag "Customer Name: " %>
+                <%= @user.full_name %><br>
+                <%= label_tag "Customer UIN: " %>
+                <%= @user.uin %><br>
+                <%= label_tag "Email: " %>
+                <%= @user.email %><br>
+                <%= label_tag "Phone: " %>
+                <%= @user.phone %><br>
+                <%= label_tag "App. ID:" %>
+                <%= @suit.appid %><br>
+                <%= label_tag "Gender:" %>
+                <%= @suit.gender %><br>
+                <%= label_tag "Article:" %>
+                <%= @suit.article %><br>
+                <%= label_tag "Size:" %>
+                <%= @suit.size %><br>
+                <%= label_tag "Checkout Time:" %>
+                <%= @renter.checkOutTime.strftime("%Y/%m/%d") %><br>
+                <%= label_tag "Expect Return Time:" %>
+                <%= @renter.expectReturnTime.strftime("%Y/%m/%d") %><br>
+            </section>
+        </aside>
+    </div>
+<center>
+    <div class="btn-group">
+        <%= link_to "Edit",edit_renter_path(@renter),{:class => "btn btn-default"} %>
+        <%= link_to "Delete", renter_path(@renter), method: :delete, data: {confirm: "Are you sure?"},:class => "btn btn-default" %>
+        <%= link_to "Back to Closet", renters_path,{:class => "btn btn-default"} %><br>
+        <%= button_to 'Remind cutomer to return the suit.', remind_renter_path(@renter), :method => :put, :class => "btn btn-warning" %>
+    </div>
+</center>
 
-<%= link_to "Edit",edit_renter_path(@renter) %></td>
-<%= link_to "Delete", renter_path(@renter), method: :delete, data: {confirm: "Are you sure?"} %><br>
-<%= link_to "Back to Closet", renters_path %> <br>
-<%= button_to 'Remind cutomer to return the suit.', remind_renter_path(@renter), :method => :put %><br>

@@ -1,22 +1,30 @@
 <h1>Showing selected Suit</h1>
-<div class= "row">
-    <aside class = "col-md-4">
-        <section>
-            <%= label_tag "App. ID" %>
-            <%= @suit.appid %><br>
-            <%= label_tag "Gender" %>
-            <%= @suit.gender %><br>
-            <%= label_tag "Article" %>
-            <%= @suit.article %><br>
-            <%= label_tag "Size" %>
-            <%= @suit.size %><br>
-            <%= label_tag "Status" %>
-            <%= @suit.status %><br>
-        </section>
-    </aside>
-</div>
 
 
-<%= link_to "Edit",edit_suit_path(@suit) %></td>
-<%= link_to "Delete", suit_path(@suit), method: :delete, data: {confirm: "Are you sure?"} %><br>
-<%= link_to "Back to Closet", suits_path %> <br>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>App. ID</th>
+        <th>Gender</th>
+        <th>Article</th>
+        <th>Size</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= @suit.appid %></td>
+        <td><%= @suit.gender %></td>
+        <td><%= @suit.article %></td>
+        <td><%= @suit.size %></td>
+        <td><%= @suit.status %></td>
+      </tr>
+    </tbody>
+</table>
+<center>
+  <div class="btn-group">
+    <%= link_to "Edit",edit_suit_path(@suit),{:class => "btn btn-default"} %>
+    <%= link_to "Delete", suit_path(@suit),{ method: :delete, data: {confirm: "Are you sure?"},:class => "btn btn-default"} %>
+    <%= link_to "Back to Closet", suits_path,{:class => "btn btn-default"} %>
+  </div>
+</center>

@@ -2,23 +2,30 @@
 
 <h1>Histories</h1>
 
-<%= search_form_for @search_history do |f| %>
-    <%= f.label :suit_appid_cont, "Suit App. ID:" %>
-    <%= f.search_field :suit_appid_cont %>
-    <%= f.label :user_uin_cont, "Customer UIN:" %>
-    <%= f.search_field :user_uin_cont %>
-    <%= f.submit "Search" %>
-<% end %>
-<br>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= search_form_for @search_history do |f| %>
+        <%= f.label :suit_appid_cont, "Suit App. ID:" %>
+        <%= f.search_field :suit_appid_cont, class: 'form-control' %><br>
+        <%= f.label :user_uin_cont, "Customer UIN:" %>
+        <%= f.search_field :user_uin_cont, class: 'form-control' %><br>
+        <%= f.submit "Search", class: "btn btn-primary"  %><br>
+    <% end %>
+  </div>
+</div><br>
+
+<p>
+    <%= link_to "New History", 'histories/new', {:class => "btn btn-default"} %>
+</p>
 
 
-<%= will_paginate %>
+<div>
+  <%= will_paginate %>
+  <%= content_tag :table, class: 'table' do %>
+    <%= content_tag :thead, display_history_sorted_column_headers(@search_history), nil, false  %>
+    <%= content_tag :tbody, display_history_sorted_search_results(@histories), nil, false  %>
+  <% end %>
+  <%= will_paginate %>
+</div>
 
-<%= content_tag :table, class: 'table' do %>
-  <%= content_tag :thead, display_history_sorted_column_headers(@search_history), nil, false  %>
-  <%= content_tag :tbody, display_history_sorted_search_results(@histories), nil, false  %>
-<% end %>
 
-<%= will_paginate %>
-
-<%= link_to 'New History', new_history_path %>

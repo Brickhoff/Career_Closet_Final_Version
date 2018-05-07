@@ -1,10 +1,13 @@
 <h1>All Customers</h1>
-<div>
-<%= search_form_for @q_user do |f| %>
-  <%= f.label :uin, "Customers UIN:" %>
-  <%= f.search_field :uin_cont %>
-  <%= f.submit %>
-<% end %>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= search_form_for @q_user do |f| %>
+      <%= f.label :uin, "Customers UIN:" %>
+      <%= f.search_field :uin_cont, class: 'form-control' %><br>
+      <%= f.submit "Search", class: "btn btn-primary" %>
+    <% end %>
+  </div>
 </div>
 
 
@@ -20,8 +23,4 @@
 <% end %>
 <%= will_paginate %>
 </div>
-
-<p>
-    <%= link_to "Back to Customers List", users_path %>
-</p>
 

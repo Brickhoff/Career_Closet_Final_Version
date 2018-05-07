@@ -1,6 +1,10 @@
 <h1>Editing Appointment</h1>
 
-<%= render 'form' %>
+<%= render 'form' %><br>
 
-<%= link_to 'Show', @appointment %> |
-<%= link_to 'Back', appointments_path %>
+<center>
+    <div class="btn-group">
+        <%= link_to 'Show', @appointment, {:class => "btn btn-default"}  %>
+        <%= link_to 'Back', appointments_path, {:class => "btn btn-default"}  %>
+    </div>
+</center>

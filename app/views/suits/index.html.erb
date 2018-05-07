@@ -1,27 +1,25 @@
 
 <h1>Suits inventory</h1>
-<p><%= link_to 'Back to Homepage', root_path %></p>
+
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= search_form_for @search do |f| %>
+        <%= f.label "App. ID" %>
+        <%= f.search_field :appid_cont, class: 'form-control' %><br>
+        <%= f.label :gender %>
+        <%= f.collection_select :gender_cont, Suit.select("distinct gender"), :gender, :gender, {:include_blank => "Please select gender"}, class: 'form-control' %><br>
+        <%= f.label :size %>
+        <%= f.collection_select :size_cont, Suit.select("distinct size"), :size, :size, {:include_blank => "Please select size"}, class: 'form-control' %><br>
+        <%= f.submit "Search", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+
 <p>
-    <%= link_to "Add new suits", new_suit_path %>
+    <%= link_to "Add new suits", new_suit_path, {:class => "btn btn-default"} %>
 </p>
-
-
-<div>
-<%= search_form_for @search do |f| %>
-    <%= f.label "App. ID" %>
-    <%= f.search_field :appid_cont %><br>
-    <%= f.label :gender %>
-    <%= f.collection_select :gender_cont, Suit.select("distinct gender"), :gender, :gender, {:include_blank => "Please select gender"} %><br>
-    <%= f.label :size %>
-    <%= f.collection_select :size_cont, Suit.select("distinct size"), :size, :size, {:include_blank => "Please select size"} %><br>
-    <%= f.submit "Search" %>
-<% end %>
-</div>
-
-
-<div>
-&nbsp;
-</div>
 
 <div>
 <%= will_paginate %>
@@ -31,7 +29,3 @@
 <% end %>
 <%= will_paginate %>
 </div>
-
-<p>
-    <%= link_to "Back to Inventory", suits_path %>
-</p>
