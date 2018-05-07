@@ -4,7 +4,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 #jumbotron1{
-    background-image: asset-url('jum.jpeg');
+    background-image: url('jum.jpeg');
     background-size: cover;
     height: 550px;
     padding-right: 60px;
@@ -15,7 +15,7 @@
     margin-top: 10px;
 }
 #jumbotron2{
-    background-image: asset-url('helppage.jpeg');
+    background-image: url('helppage.jpg');
     background-size: cover;
     height: 550px;
     padding-right: 60px;
