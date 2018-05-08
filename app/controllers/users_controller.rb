@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   
   def index
     @q_user = User.ransack(params[:q])
-    @users = @q_user.result().paginate(page: params[:page], :per_page => 30) || []
+    @users = @q_user.result().paginate(page: params[:page], :per_page => 10) || []
   end
   
   def edit
@@ -61,11 +61,12 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @renter = Renter.where(user_id: @user.id)
-    if @renter.blank?
+    @history = History.where(user_id: @user.id)
+    if @renter.blank? && @history.blank?
       @user.destroy
-      flash[:notice] = "The customer data is delete."
+      flash[:success] = "The customer data is delete."
     else
-      flash[:notice] = "You can not destroy customer data because he or she hold a suit."
+      flash[:danger] = "You can not destroy customer data because he or she hold a suit."
     end
     redirect_to users_path
   end

@@ -12,7 +12,7 @@ class AdminPasswordResetsController < ApplicationController
     if @admin
       @admin.create_reset_digest
       @admin.send_passward_reset_email
-      flash[:info] = "Email sent with password reset instructions"
+      flash[:success] = "Email sent with password reset instructions"
       redirect_to root_path
     else
       flash.now[:danger] = "Email address not found"

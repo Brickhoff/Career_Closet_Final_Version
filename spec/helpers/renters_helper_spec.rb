@@ -21,7 +21,7 @@ RSpec.describe RentersHelper, type: :helper do
           @renter = FactoryGirl.create(:renter)
           visit renters_path
           current_path.should eq(renters_path)
-          click_link "Status"
+          click_link "App. ID"
       end
   end
 end

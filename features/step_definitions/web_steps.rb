@@ -57,6 +57,10 @@ When /^(?:|I )follow "([^"]*)"$/ do |link|
   click_link(link)
 end
 
+Then(/^I click the (\d+) instance of link "(.*?)"$/) do |instance, link|
+   page.all('a', :text => "#{link}")[instance.to_i - 1].click    
+end
+
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
   fill_in(field, :with => value)
 end
@@ -251,4 +255,10 @@ end
 
 Then /^show me the page$/ do
   save_and_open_page
+end
+
+
+When /^I change the value of the "([^\"]*)" to "([^\"]*)"$/ do |hidden_field_id, value|
+      hidden_field = find :xpath, "//input[@id='#{hidden_field_id}']", visible: false
+      hidden_field.set "#{value}"
 end

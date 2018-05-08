@@ -6,7 +6,7 @@ class HistoriesController < ApplicationController
   # GET /histories.json
   def index
       @search_history = History.ransack(params[:q])
-      @histories = @search_history.result.includes(:user, :suit).paginate(page: params[:page], per_page:30)
+      @histories = @search_history.result.includes(:user, :suit).paginate(page: params[:page], per_page:10)
   end
 
   # GET /histories/1
@@ -33,7 +33,8 @@ class HistoriesController < ApplicationController
 
     respond_to do |format|
       if @history.save
-        format.html { redirect_to @history, notice: 'History was successfully created.' }
+        flash[:success] = 'History was successfully created.'
+        format.html { redirect_to @history}
         format.json { render :show, status: :created, location: @history }
       else
         format.html { render :new }
@@ -47,7 +48,8 @@ class HistoriesController < ApplicationController
   def update
     respond_to do |format|
       if @history.update(history_params)
-        format.html { redirect_to @history, notice: 'History was successfully updated.' }
+        flash[:success] = 'History was successfully updated.'
+        format.html { redirect_to @history }
         format.json { render :show, status: :ok, location: @history }
       else
         format.html { render :edit }
@@ -61,7 +63,8 @@ class HistoriesController < ApplicationController
   def destroy
     @history.destroy
     respond_to do |format|
-      format.html { redirect_to histories_url, notice: 'History was successfully destroyed.' }
+      flash[:success] = 'History was successfully destroyed.'
+      format.html { redirect_to histories_url }
       format.json { head :no_content }
     end
   end

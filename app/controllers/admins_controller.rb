@@ -59,9 +59,9 @@ class AdminsController < ApplicationController
     @admin = Admin.find(params[:id])
     if !@admin.superadmin?
       @admin.destroy
-      flash[:notice] = "The admin is delete."
+      flash[:success] = "The admin is delete."
     else
-      flash[:notice] = "You can not delete super admin account."
+      flash[:danger] = "You can not delete super admin account."
     end
     redirect_to admins_path
   end

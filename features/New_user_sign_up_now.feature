@@ -83,7 +83,7 @@ Scenario: new user sign up
   When I open the email with subject "Please confirm your registration."
   When I click the first link in the email
   Then I should see "Welcome to TAMU Closet! Your account has now been confirmed."
-  And I follow "Log in"
+  And I follow "As Customer"
   Then I am on the login page
   And I fill in "Email" with "brickhoff@tamu.edu"
   And I fill in "Password" with "123456789"

@@ -12,12 +12,14 @@ Background: users in database
 
   Given the following suits exist:
   | appid     |     gender     | article  | size |  status   | 
-  | JM123     |       G        | slim     | 28   | Checkout  | 
-  | JM143     |       M        | slim     | 25   | Available | 
+  | JM666     |       F        | slim     | 28   | Checkout  | 
+  | JM143     |       M        | slim     | 25   | Available |
+  | JM153     |       M        | slim     | 25   | Available |
+  | JM163     |       M        | slim     | 25   | Available |
 
   Given the following renters exist:
-  | checkOutTime              | expectReturnTime            | returnTime  | status  |  user_id   | suit_id |
-  | 2018-04-08 19:00:00 -0500 | 2018-04-18 19:00:00 -0500   |             | Checkou |      1     |    1    |
+  | checkOutTime              | expectReturnTime            | returnTime  |  user_id   | suit_id |
+  | 2018-04-08 19:00:00 -0500 | 2018-04-18 19:00:00 -0500   |             |      1     |    1    |
 
   Given the following histories exist:
   |  suit_id   |  user_id      |     checkOutTime        |   expectReturnTime         |     returnTime          |
@@ -30,19 +32,41 @@ Scenario: create a rental record (sad path that suit is not available)
   Then I follow "Rent a suit"
   And I should see "UIN of costumer:"
   And I select "123456790" from "UIN of costumer:"
-  And I select "JM123" from "App. ID"
-  Then I press "Make a rent"
+  And I select "JM666" from "App. ID"
+  Then I press "Submit"
   And I should see "The suit is not available."
   
-Scenario: create a rental record (sad path customer holds a suit)
+Scenario: create a rental record
   When I am on the renters page
   Then I should see "Suit App. ID:"
   Then I follow "Rent a suit"
   And I should see "UIN of costumer:"
   And I select "123456789" from "UIN of costumer:"
   And I select "JM143" from "App. ID"
-  Then I press "Make a rent"
+  Then I press "Submit"
   And I should see "Suit is checked out."
+  
+Scenario: create a rental record (sad path This customer has two suit in hold.)
+  When I am on the renters page
+  Then I should see "Suit App. ID:"
+  Then I follow "Rent a suit"
+  And I should see "UIN of costumer:"
+  And I select "123456789" from "UIN of costumer:"
+  And I select "JM143" from "App. ID"
+  Then I press "Submit"
+  Then I follow "Back to Closet"
+  Then I follow "Rent a suit"
+  And I should see "UIN of costumer:"
+  And I select "123456789" from "UIN of costumer:"
+  And I select "JM153" from "App. ID"
+  Then I press "Submit"
+  Then I follow "Back to Closet"
+  Then I follow "Rent a suit"
+  And I should see "UIN of costumer:"
+  And I select "123456789" from "UIN of costumer:"
+  And I select "JM163" from "App. ID"
+  Then I press "Submit"
+  And I should see "This customer has two suit in hold."
   
 Scenario: create a rental record (sad path Please select a customer.)
   When I am on the renters page
@@ -50,7 +74,7 @@ Scenario: create a rental record (sad path Please select a customer.)
   Then I follow "Rent a suit"
   And I should see "UIN of costumer:"
   And I select "JM143" from "App. ID"
-  Then I press "Make a rent"
+  Then I press "Submit"
   And I should see "Please select a customer."
 
   
@@ -61,14 +85,14 @@ Scenario: create a rental record
   And I should see "UIN of costumer:"
   And I select "123456790" from "UIN of costumer:"
   And I select "JM143" from "App. ID"
-  Then I press "Make a rent"
+  Then I press "Submit"
   And I am on the renters page
 
 Scenario: create a rental record
   When I am on the renters page
   Then I should see "Suit App. ID:"
   Then I follow "Rent a suit"
-  Then I follow "Back to Rent System"
+  Then I follow "Back to rental system"
   And I am on the renters page
   
 Scenario: Show a rental record
@@ -78,7 +102,7 @@ Scenario: Show a rental record
   And I should see "Cathy"
   And I follow "Edit"
   And I should see "123456789"
-  And I press "Edit"
+  And I press "Submit"
 
 Scenario: Remind customer to return a suit
   When I am on the renters page

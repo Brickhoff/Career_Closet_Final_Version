@@ -9,10 +9,10 @@ class AdminsessionController < ApplicationController
        if admin.email_confirmed
           admin_log_in admin
           params[:session][:remember_me] == '1' ? admin_remember(admin) : admin_forget(admin)
-          flash[:success] = "Welcome come to Career Closet."
+          flash[:success] = "Welcome to Career Closet."
           redirect_to suits_path
-       else
-          flash[:notice] = "Please activate your account."
+        else
+          flash[:error] = "Please activate your account."
           redirect_to root_path
        end
     else

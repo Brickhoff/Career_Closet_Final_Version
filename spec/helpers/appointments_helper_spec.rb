@@ -14,13 +14,14 @@ include SpecTestHelper
 # end
 RSpec.describe AppointmentsHelper, type: :helper do
   describe "display appointments" do
-      it "with time, user and action" do
-          admin_log_in
+      before :each do
           user_log_in
+      end
+      it "with time, user and action" do
+          @appointment = FactoryGirl.create(:appointment)
           visit appointments_path
           current_path.should eq(appointments_path)
-          @appointment = FactoryGirl.create(:appointment)
-          click_link "Gender"
+          click_link "Date"
           
           
           #expect(helper.display_appointment_sorted_column_headers(@appointment)).to match ("Time")

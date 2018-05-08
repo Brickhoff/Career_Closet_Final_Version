@@ -11,20 +11,20 @@ Background: histories in database
   |     2      |      2        | 2018-04-3 21:58:59 UTC  |   2018-04-13 21:58:59 UTC  | 2018-04-17 21:58:59 UTC |  
   
   Given the following admins exist:
-  | name      |    email       | password | password_confirmation | 
-  | Cathy     | cathy@tamu.edu | 123456   |   123456              |         
-  | Brick     | bk@tamu.edu    | 123456   |   123456              |
+  | name      |    email       | password | password_confirmation | email_confirmed |     code    |
+  | Cathy     | cathy@tamu.edu | 123456   |   123456              |      true       |   R7BhQG9a  |
+  | Brick     | bk@tamu.edu    | 123456   |   123456              |      true       |   PncCz4gm  |
   
   Given the following suits exist:
   | appid       |     gender     | article  | size |  status   | 
-  | goodboy     |       G        | slim     | 28   | Checkout  |
-  | badgirl     |       M        | fit      | 32   | Available |
-  | sexy        |       G        | slim     | 34   | Available |
+  | goodboy     |       F        | slim     | 28   | Checkout  |
+  | badgirl     |       M        | fit      | 32   | Checkout  |
+  | sexy        |       F        | slim     | 34   | Available |
   
   Given the following users exist:
   | first_name    |  last_name  |     uin   |   phone       |     email      |   available    |  password | password_confirmation | email_confirmed |
-  | Cathy         |     Zhang   | 123456789 |   9796863432  | cathy@tamu.edu |    false       | 123456    |   123456              |     true        |
-  | Henry         |     Lin     | 123456790 |   9796823432  | henry@tamu.edu |    true        | 123456    |   123456              |     true        |
+  | Cathy         |     Zhang   | 123456789 |   9796863432  | cathy@tamu.edu |    ture       | 123456    |   123456              |     true        |
+  | Henry         |     Lin     | 123456790 |   9796823432  | henry@tamu.edu |    ture        | 123456    |   123456              |     true        |
   | Brickhoff     |     Wu      | 345678901 |   1234567898  | bri@tamu.edu   |    true        | 123456    |   123456              |     true        |
 
 Scenario: admin login, create history, edit history, delete history
@@ -72,7 +72,6 @@ Scenario: admin login, create history, edit history, delete history
   And I follow "Delete"
   Then I am on the histories page
   
-  
 Scenario: admin login, create history, edit history, delete history
   When I am on the home page
   And I follow "Admin"
@@ -82,4 +81,5 @@ Scenario: admin login, create history, edit history, delete history
   And I press "Log in"
   Then I should be on the suits page
   And I follow "History"
-  And I should see "123456790"
+  And I should see "Histories"
+  And I follow "App. ID"

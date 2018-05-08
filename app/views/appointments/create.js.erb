@@ -1,0 +1,53 @@
+$(document).on("turbolinks:load", function(){
+    
+    
+    var currentDate;
+    var slot;
+    var url = window.location.pathname;
+    //pathname
+    $( "#datepicker" ).datepicker({
+      showOtherMonths: true,
+      selectOtherMonths: true,
+      dateFormat: "yy-mm-dd",
+      onSelect: function(date) {
+          currentDate =$(this).val();
+      },
+      beforeShowDay: function(date){ 
+        $(".ui-datepicker").css('font-size', 20) 
+        var day = date.getDay(); 
+        return [day == 1 || day == 4,""];
+      }
+    });
+    
+    $(".btnc").on('click', function(){ 
+      $(this).removeClass("off").addClass("on").parents().siblings().children().removeClass("on").addClass("off");
+      $(this).removeClass("off").addClass("on").parents().parents().siblings().children().children().removeClass("on").addClass("off");
+       slot = $(this).text();
+    });
+    
+
+    
+    $(".buttonap").on('click',function(){
+        var dateInfo ={
+          time: currentDate,
+          slot: slot
+        };
+        console.log(url);
+       $.ajax({
+        type: 'POST',
+        url: 'url',
+        data: dateInfo,
+        dataType:'json',
+        cache:false, 
+        success: function(r){
+          alert('Hello');
+        },
+        error: function(){
+          alert('Hi');
+        }
+      });
+    });
+    
+  
+
+});

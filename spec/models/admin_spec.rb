@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Admin, :type => :model do
     subject {described_class.new(name: "Henry",  email:"hn@tamu.edu",
-      password: "123456", password_confirmation: "123456")}
+      password: "123456", password_confirmation: "123456", code: "pXZEcKp8")}
     describe "Validations" do
         it "is valid with valid attributes" do
             expect(subject).to be_valid

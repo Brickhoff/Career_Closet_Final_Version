@@ -2,7 +2,9 @@
 
 FactoryGirl.define do
     factory :appointment do
-        time {Faker::Time.between(DateTime.now, DateTime.now + 1)}
+        time Time.now
+        slot "9:00 am"
+        user_id 1
         association :user
         factory :invalid_appointment do 
             time nil

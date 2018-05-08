@@ -9,9 +9,12 @@ SimpleCov.coverage_dir 'coverage/cucumber'
 
 require 'cucumber/rails'
 
+
 # Make sure this require is after you require cucumber/rails/world.
 require 'email_spec' # add this line if you use spork
 require 'email_spec/cucumber'
+
+
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
