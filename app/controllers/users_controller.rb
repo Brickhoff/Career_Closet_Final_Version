@@ -66,7 +66,7 @@ class UsersController < ApplicationController
       @user.destroy
       flash[:success] = "The customer data is delete."
     else
-      flash[:danger] = "You can not destroy customer data because he or she hold a suit."
+      flash[:danger] = "Before you delete this customer please remove his or her history and rental record."
     end
     redirect_to users_path
   end
